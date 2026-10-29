@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "unique_html_ids": 117,
+  "missing_js_element_ids": [],
+  "history_years": 31,
+  "policy_scenarios": 24,
+  "lsoa_geometries": 33755,
+  "lad_geometries": 296,
+  "all_history_counts_reconciled": true,
+  "all_local_band_counts_reconciled": true,
+  "policy_shares_valid": true,
+  "downloads_aggregate_only": true,
+  "citation_and_emails_present": true,
+  "html_sha256": "213457d84be683c3acd1210cfdd6927d3e7e1723b25bbc52af6c2c6e0c7f8913",
+  "js_sha256": "68cc9b60e204e68f6713fb28635f109f88bfdab35dd661435182ca5b87d59c32"
+}

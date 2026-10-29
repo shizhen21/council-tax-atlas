@@ -1,0 +1,25 @@
+{
+  "history_years": 31,
+  "policy_years": 4,
+  "policies": 6,
+  "lsoa_geometries": 33755,
+  "lad_geometries": 296,
+  "history_n_matches_saved_annual": true,
+  "history_matches_existing_four_year_maps": true,
+  "policy_means_match_saved_map_exports": true,
+  "lsoa_lad_multiple_or_unobserved": 46,
+  "raw_identifiers_exported": false,
+  "geometry_simplification_metres": 50,
+  "data_files": 1713,
+  "local_explorer_years": 31,
+  "local_band_share_years": 31,
+  "lsoa_band_share_years": 31,
+  "unique_official_lsoa_lad_links": 33709,
+  "lad_harmonisation_2025": {
+    "year": 2025,
+    "total": 565375,
+    "mapped": 564816,
+    "unresolved": 559
+  },
+  "local_coverage_reconciles": true
+}

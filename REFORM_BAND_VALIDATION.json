@@ -1,0 +1,46 @@
+{
+  "2022": {
+    "policies": 6,
+    "geographies": [
+      "England",
+      "LAD",
+      "LSOA"
+    ],
+    "all_band_counts_reconcile": true,
+    "saved_national_etr_means_reconciled": true,
+    "all_296_lad_bill_and_etr_means_reconciled": true
+  },
+  "2023": {
+    "policies": 6,
+    "geographies": [
+      "England",
+      "LAD",
+      "LSOA"
+    ],
+    "all_band_counts_reconcile": true,
+    "saved_national_etr_means_reconciled": true,
+    "all_296_lad_bill_and_etr_means_reconciled": true
+  },
+  "2024": {
+    "policies": 6,
+    "geographies": [
+      "England",
+      "LAD",
+      "LSOA"
+    ],
+    "all_band_counts_reconcile": true,
+    "saved_national_etr_means_reconciled": true,
+    "all_296_lad_bill_and_etr_means_reconciled": true
+  },
+  "2025": {
+    "policies": 6,
+    "geographies": [
+      "England",
+      "LAD",
+      "LSOA"
+    ],
+    "all_band_counts_reconcile": true,
+    "saved_national_etr_means_reconciled": true,
+    "all_296_lad_bill_and_etr_means_reconciled": true
+  }
+}
