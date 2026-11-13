@@ -16,7 +16,7 @@ async function renderReformBandQuery(){
  setText('reformBandSample',BANDS.map(b=>'Band '+b+': '+fmt(rows[b]?.[0]||0)).join(' · '));setText('reformBandQueryNote',(a?.type==='lsoa'?'Ward names are ONS 2026 best-fit reference labels; boundaries can differ from the LSOA. ':'')+'Option '+k+' · '+POLICIES[k-1]+'. Groups use ORIGINAL A–H bands before reform. In Options 4 and 6, properties in the same original band can enter different new bands and face different bills. Effective rates average each annual bill divided by its observed sale price; they are not computed from an average property price. Paying more/less uses the saved £0.01 tolerance.');
 }
 function initReformBandQuery(){
- if(!$('reformQueryYear')||IS_REFORM)return;
+ if(!$('reformQueryYear'))return;
  $('reformQueryPolicy').innerHTML=POLICIES.map((n,i)=>'<option value="'+(i+1)+'"'+(i===5?' selected':'')+'>'+(i+1)+'. '+esc(n)+'</option>').join('');
  $('reformQueryLad').innerHTML='<option value="">All local authorities</option>'+Object.entries(M.lads).sort((a,b)=>a[1].name.localeCompare(b[1].name)).map(([c,a])=>'<option value="'+c+'">'+esc(a.name)+'</option>').join('');
  for(const id of ['reformQueryYear','reformQueryPolicy','reformQueryBand'])$(id).onchange=()=>renderReformBandQuery().catch(showError);

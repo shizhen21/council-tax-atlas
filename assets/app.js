@@ -1,16 +1,16 @@
 'use strict';
 const $=id=>document.getElementById(id),BANDS='ABCDEFGH'.split(''),OMEGA=[6/9,7/9,8/9,1,11/9,13/9,15/9,2],POLICIES=['Scottish multipliers','Illustrative I/J bands','High-value surcharge','Rebanding only','Local multipliers','Rebanding + multipliers'];
 const BLUE=['#f1f7f8','#deedf2','#c5dfe8','#a6cbdc','#84b4ce','#639bbd','#4380a8','#2e658e','#204b71','#16354e'],DIVERGE=['#17466b','#32698b','#6a97af','#a5beca','#d6e1e4','#f5f4ef','#f0dfce','#e5b994','#d49362','#be683b','#964326'];
-const IS_REFORM=document.body.classList.contains('map-embed');
+const IS_REFORM=document.body.dataset.page==='reform';
 let M,G,paths,ctx,hitctx,canvas,hitCanvas,mode=IS_REFORM?'policy':'current',year=2025,policy=6,metric=IS_REFORM?'deltaBill':'etr',selection=null,history=[],changes=null,view={s:1,x:0,y:0},home,renderId=0,lastPointer=null,drag=null,hover=-1,selectedIndices=[],lastSeriesKey='',selectionVersion=0;
 const cache=new Map(),seriesCache=new Map();let L,placeNames,explorerYear=2025,explorerLad='',explorerLsoa='';
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const finite=v=>typeof v==='number'&&Number.isFinite(v),fmt=(v,d=0)=>finite(v)?v.toLocaleString('en-GB',{minimumFractionDigits:d,maximumFractionDigits:d}):'—',gbp=(v,d=0)=>finite(v)?(v<-.5*Math.pow(10,-d)?'−£':'£')+fmt(Math.abs(v)<.5*Math.pow(10,-d)?0:Math.abs(v),d):'—',signed=(v,d=3)=>finite(v)?(v>0?'+':v<0?'−':'')+fmt(Math.abs(v),d):'—';
 function setText(id,s){$(id).textContent=s;}
-async function get(file){if(!cache.has(file))cache.set(file,fetch('data/'+file).then(r=>{if(!r.ok)throw Error('Could not load '+file);return r.json();}).catch(e=>{cache.delete(file);throw e;}));return cache.get(file);}
+async function get(file){if(window.COUNCIL_ATLAS_EMBED&&Object.prototype.hasOwnProperty.call(window.COUNCIL_ATLAS_EMBED,file))return window.COUNCIL_ATLAS_EMBED[file];if(!cache.has(file))cache.set(file,fetch('data/'+file).then(r=>{if(!r.ok)throw Error('Could not load '+file);return r.json();}).catch(e=>{cache.delete(file);throw e;}));return cache.get(file);}
 function showError(e){$('fatal').hidden=false;$('fatal').textContent='The atlas could not load a required file. '+e.message+' — Open this website through its local server, rather than double-clicking index.html.';console.error(e);}
 function lineChart(id,series,{unit='',color='#247b78',zero=false,range=null,selectedYear=year}={}){
- const el=$(id),w=Math.max(280,el.clientWidth||450),h=175,l=48,r=14,t=12,b=27,valid=series.filter(d=>finite(d[1]));if(!valid.length){el.innerHTML='<p class="empty">No published observations for this selection.</p>';return;}
+ const el=$(id);if(!el)return;const w=Math.max(280,el.clientWidth||450),h=175,l=48,r=14,t=12,b=27,valid=series.filter(d=>finite(d[1]));if(!valid.length){el.innerHTML='<p class="empty">No published observations for this selection.</p>';return;}
  let lo=Math.min(...valid.map(d=>d[1])),hi=Math.max(...valid.map(d=>d[1]));if(zero)lo=Math.min(0,lo);if(range){lo=range[0];hi=range[1];}let pad=(hi-lo)*.12||1;lo-=pad;hi+=pad;
  const minx=Math.min(...series.map(d=>d[0])),maxx=Math.max(...series.map(d=>d[0])),x=v=>l+(v-minx)/(maxx-minx||1)*(w-l-r),y=v=>h-b-(v-lo)/(hi-lo)*(h-t-b);
  let grid='',ticks='';for(let j=0;j<4;j++){const v=lo+(hi-lo)*j/3;grid+=`<line x1="${l}" y1="${y(v)}" x2="${w-r}" y2="${y(v)}" stroke="#e8ecec"/><text x="${l-6}" y="${y(v)+3}" text-anchor="end" fill="#61727c" font-size="9">${esc(unit==='count'?(v>=1e6?(v/1e6).toFixed(2)+'m':Math.round(v/1e3)+'k'):unit==='£'?Math.round(v).toLocaleString('en-GB'):v.toFixed(2))}</text>`;}
@@ -51,7 +51,7 @@ function renderDetails(){
  setText('detailNote',selection?.type==='lad'&&mode==='current'?'Current levels aggregate neighbourhoods uniquely linked to this LAD. Unresolved cross-boundary links are excluded from this local display; national totals include them.':selection?.type==='lsoa'?'Ward names are ONS 2026 best-fit reference labels, not exact LSOA boundary names. LSOA means describe transacting properties; small groups can be volatile.':'Standard liabilities and observed sale prices; household reliefs and behavioural responses are not modelled.');
  renderContext();
 }
-function renderContext(){
+function renderContext(){if(!$('bandSource'))return;
  const lad=null,source=$('bandSource').value;let values,sourceText;
  if(source==='stock'){values=lad?M.stock[lad]||{}:M.stockNational;sourceText='Official September-2026 stock shares; fixed reference, not an annual stock series. Published unavailable cells remain missing.';}
  else{const counts=M.trade[$('baselineYear').value||2025];const total=Object.values(counts||{}).reduce((a,b)=>a+b,0);values=Object.fromEntries(BANDS.map(b=>[b,total&&finite(counts?.[b])?100*counts[b]/total:null]));sourceText=lad&&!counts?'Local transaction shares are available for policy years 2022–2025 only.':'Selected transaction shares in '+($('baselineYear').value||2025)+'; repeated sales count separately. This is not the housing-stock distribution.';}
@@ -63,7 +63,7 @@ function ladValue(code){
  if(mode==='policy'){const a=M.ladPolicy[year+'_'+policy]?.[code];if(!a)return null;return metric==='afterBill'?a.mean_bill_after:metric==='afterEtr'?a.mean_etr_after:metric==='deltaBill'?a.mean_bill_after-a.mean_bill_before:metric==='deltaEtr'?a.mean_etr_after-a.mean_etr_before:100*a[metric==='less'?'share_less':'share_more'];}
  const a=L.history[year]?.[code];return a?(metric==='n'?a[0]:metric==='bill'?a[1]:a[2]):null;
 }
-function renderBaselineLocal(){
+function renderBaselineLocal(){if(!$('baselineLad'))return;
  const code=$('baselineLad').value,yy=+$('baselineYear').value,stock=$('bandSource').value==='stock',counts=code?L.bands[yy]?.[code]:M.trade[yy],total=Object.values(counts||{}).reduce((a,b)=>a+b,0),v=stock?(code?M.stock[code]:M.stockNational)||{}:Object.fromEntries(BANDS.map(b=>[b,total?100*(counts?.[b]||0)/total:null])),max=Math.max(1,...Object.values(v).filter(finite)),name=code?M.lads[code]?.name:'England';
  $('baselineBandBars').innerHTML=BANDS.map(b=>`<div class="band-column"><b>${finite(v[b])?fmt(v[b],1)+'%':'—'}</b><div class="bar" style="height:${finite(v[b])?v[b]/max*115:0}px"></div><span>${b}</span></div>`).join('');
  setText('baselineBandNote',name+' · '+(stock?'official September-2026 stock shares; fixed snapshot.':'selected '+yy+' transaction shares, not the housing stock.'));setText('baselineDPlace',name);
@@ -74,7 +74,7 @@ function explorerNeighbourhoods(){
  const options=$('explorerLevel').value==='lsoa'?M.areas.flatMap((a,i)=>(!explorerLad||a.lad===explorerLad)?[[i,a]]:[]).sort((a,b)=>a[1].name.localeCompare(b[1].name)):[];
  $('explorerLsoa').innerHTML='<option value="">Choose a neighbourhood (or view the whole area)</option>'+options.map(([i,a])=>`<option value="${i}">${esc(a.name)} · ${a.code}</option>`).join('');$('explorerLsoa').disabled=$('explorerLevel').value!=='lsoa';explorerLsoa='';
 }
-async function renderLocalExplorer(){
+async function renderLocalExplorer(){if(!$('localTitle'))return;
  const yy=explorerYear,li=explorerLsoa===''?null:+explorerLsoa,lad=li!==null?M.areas[li].lad:explorerLad,token=++selectionVersion,place=li!==null?M.areas[li].name:lad?M.lads[lad].name:'England';
  setText('localTitle',place+(li!==null?' · LSOA Explorer':' · LAD Explorer'));setText('localBandDPlace',lad?M.lads[lad].name:li!==null?'No unique LAD link':'England');setText('trendStatus','Loading local series…');
  let series,counts;if(li!==null){const bucket=li%64;if(!seriesCache.has(bucket))seriesCache.set(bucket,get('series/'+bucket+'.json'));const [all,bb]=await Promise.all([seriesCache.get(bucket),get('bands/'+yy+'.json')]);if(token!==selectionVersion)return;series=all[li]||Array(31).fill(null);counts=bb[li]||Array(8).fill(0);}
@@ -91,7 +91,7 @@ async function renderLocalExplorer(){
  lineChart('historicalNational',Object.values(M.annual).map(r=>[r.year,r.national_suits]),{unit:'Suits',selectedYear:yy});lineChart('historicalWithin',Object.values(M.annual).map(r=>[r.year,r.within_authority_suits]),{unit:'Suits',selectedYear:yy});
 }
 function useMapInExplorer(){const lad=selectedLad();explorerLad=lad||'';$('explorerLad').value=explorerLad;explorerNeighbourhoods();if(selection?.type==='lsoa'){$('explorerLevel').value='lsoa';explorerNeighbourhoods();explorerLsoa=String(selection.index);$('explorerLsoa').value=explorerLsoa;}explorerYear=year;$('explorerYear').value=year;renderLocalExplorer().catch(showError);}
-function renderMultipliers(){
+function renderMultipliers(){if(!$('multiplierChart'))return;
  const lad=$('parameterArea').value||null,v=$('multiplierVariant').value,yy=+$('compareYear').value,all=M.multipliers[yy+'_'+v]||{};let ratios,counts={};
  if(lad){ratios=all[lad]||{};setText('multiplierTitle',M.lads[lad].name+' · local band multipliers');}
  else{ratios={};for(const band of BANDS){const values=Object.values(all).map(r=>r[band]).filter(finite).sort((a,b)=>a-b);counts[band]=values.length;ratios[band]=values.length?(values[Math.floor((values.length-1)/2)]+values[Math.ceil((values.length-1)/2)])/2:null;}setText('multiplierTitle','England · median of local multipliers');}
@@ -100,12 +100,12 @@ function renderMultipliers(){
  const thresholds=lad?M.thresholds[yy]?.[lad]:null;
  $('thresholds').innerHTML=thresholds?'<details><summary>Local rebanding upper-price thresholds · '+yy+'</summary><table class="compact"><tbody>'+BANDS.map(b=>'<tr><td>Band '+b+'</td><td>'+(finite(thresholds[b])?gbp(thresholds[b]):'Open-ended / no finite cutoff')+'</td></tr>').join('')+'</tbody></table><p class="note">Prices equal to a cutoff remain in the lower band. Only positive-share bands enter allocation; missing cutoffs are not imputed.</p></details>':'';
 }
-function renderTransitions(){
+function renderTransitions(){if(!$('transitionChart'))return;
  const yy=+$('compareYear').value,rows=M.transitions[yy]||[],totals={};rows.forEach(r=>totals[r[0]]=(totals[r[0]]||0)+r[2]);let html='<div class="heatmap" aria-label="Rebanding transition shares '+yy+'"><div></div>'+BANDS.map(b=>'<div>'+b+'</div>').join('');
  for(const a of BANDS){html+='<div>'+a+'</div>';for(const b of BANDS){const n=rows.find(r=>r[0]===a&&r[1]===b)?.[2]||0,p=totals[a]?100*n/totals[a]:0;html+=`<div class="cell" style="background:rgba(36,123,120,${.04+p/100*.9});color:${p>55?'white':'#17394b'}" title="${a} → ${b}: ${n} transactions (${p.toFixed(2)}%)">${p>=.05?p.toFixed(1):'·'}</div>`;}}
  $('transitionChart').innerHTML=html+'</div><p class="note">Year '+yy+' · percentages within each original band</p>';
 }
-function renderComparison(){
+function renderComparison(){if(!$('compareYear'))return;
  renderMultipliers();renderTransitions();
  const local=$('parameterArea').value,localYear=$('compareYear').value;$('localPolicyCard').hidden=!local;
  if(local){setText('localPolicyTitle',M.lads[local].name+' · reform comparison · '+localYear);$('localPolicyTable').innerHTML='<thead><tr><th>Reform</th><th>Mean bill change</th><th>Mean ETR change</th><th>Pay less</th><th>Current Suits</th><th>Reform Suits</th></tr></thead><tbody>'+POLICIES.map((name,j)=>{const k=j+1,a=M.ladPolicy[localYear+'_'+k]?.[local],b=M.suits[localYear+'_'+k]?.[local];return a?`<tr><td>${k}. ${name}</td><td>${gbp(a.mean_bill_after-a.mean_bill_before,2)}</td><td>${signed(a.mean_etr_after-a.mean_etr_before,3)} pp</td><td>${fmt(a.share_less*100,2)}%</td><td>${fmt(b?.current_suits,4)}</td><td>${fmt(b?.reform_suits,4)}</td></tr>`:'';}).join('')+'</tbody>';}
@@ -141,22 +141,84 @@ function hit(e){const b=canvas.getBoundingClientRect(),dpr=window.devicePixelRat
 function zoom(f,x,y){const w=$('mapViewport').clientWidth,h=$('mapViewport').clientHeight;x??=w/2;y??=h/2;const next=Math.max(home.s*.7,Math.min(home.s*50,view.s*f));f=next/view.s;view.x=x-(x-view.x)*f;view.y=y-(y-view.y)*f;view.s=next;draw();}
 function fit(b){const w=$('mapViewport').clientWidth,h=$('mapViewport').clientHeight,s=Math.min((w-80)/Math.max(b[2]-b[0],1),(h-100)/Math.max(b[3]-b[1],1),home.s*35);view={s,x:(w-(b[0]+b[2])*s)/2,y:(h-(b[1]+b[3])*s)/2};draw();}
 function choose(type,value,doZoom=true){selection=type==='lad'?{type,code:value}:type==='lsoa'?{type,index:value}:null;selectedIndices=selection?.type==='lad'?M.areas.flatMap((a,i)=>a.lad===value?[i]:[]):[];$('searchResults').hidden=true;$('mapTooltip').hidden=true;if(doZoom){if(selection?.type==='lad')fit(M.lads[value].b);if(selection?.type==='lsoa')fit(M.areas[value].b);}if(!selection)view={...home};draw();renderDetails();}
-function bind(){
- $('explorerLevel').onchange=()=>{explorerNeighbourhoods();renderLocalExplorer().catch(showError);};$('baselineLad').onchange=renderBaselineLocal;$('baselineYear').onchange=renderContext;$('mapLevel').onchange=()=>{choose(null);updateData();};
- $('explorerLad').onchange=e=>{explorerLad=e.target.value;explorerNeighbourhoods();renderLocalExplorer().catch(showError);};$('explorerLsoa').onchange=e=>{explorerLsoa=e.target.value;renderLocalExplorer().catch(showError);};$('explorerYear').onchange=e=>{explorerYear=+e.target.value;renderLocalExplorer().catch(showError);};$('explorerBandSource').onchange=()=>renderLocalExplorer().catch(showError);$('useMapArea').onclick=useMapInExplorer;$('openExplorerFromMap').onclick=useMapInExplorer;$('useExplorerArea').onclick=()=>{$('parameterArea').value=explorerLad;renderComparison();};
-
- $('year').onchange=e=>setYear(+e.target.value);$('yearRange').oninput=e=>setText('timelineYear',e.target.value);$('yearRange').onchange=e=>setYear(+e.target.value);$('prevYear').onclick=()=>setYear(Math.max(mode==='current'?1995:2022,year-1));$('nextYear').onclick=()=>setYear(Math.min(2025,year+1));$('policy').onchange=e=>{policy=+e.target.value;updateData();};$('metric').onchange=e=>{metric=e.target.value;legend();setText('mapTitle',metrics().find(v=>v[0]===metric)[1]);draw();};$('reset').onclick=()=>{choose(null);$('search').value='';};$('clearSelection').onclick=()=>choose(null);$('bandSource').onchange=renderContext;$('multiplierVariant').onchange=renderMultipliers;$('compareYear').onchange=renderComparison;$('comparePolicy').onchange=renderComparison;$('parameterArea').onchange=renderComparison;$('neighbourMetric').onchange=renderComparison;
- $('search').oninput=e=>{const q=e.target.value.trim().toLowerCase(),el=$('searchResults');el.replaceChildren();if(q.length<2){el.hidden=true;return;}const matches=[...Object.entries(M.lads).filter(([c,a])=>(c+' '+a.name).toLowerCase().includes(q)).slice(0,5).map(([code,a])=>({type:'lad',value:code,name:a.name,code})),...M.areas.flatMap((a,i)=>(a.code+' '+a.name).toLowerCase().includes(q)?[{type:'lsoa',value:i,name:a.name,code:a.code}]:[]).slice(0,8)];for(const r of matches){const b=document.createElement('button');b.innerHTML=esc(r.name)+'<small>'+esc(r.code)+' · '+(r.type==='lad'?'Local authority':'LSOA neighbourhood')+'</small>';b.onclick=()=>{choose(r.type,r.value);$('search').value=r.name;};el.appendChild(b);}if(!matches.length)el.innerHTML='<p class="note" style="padding:10px">No matching area. Try a name or LSOA code (for example, E01000001).</p>';el.hidden=false;};$('search').onkeydown=e=>{if(e.key==='Enter')$('searchResults').querySelector('button')?.click();if(e.key==='Escape')$('searchResults').hidden=true;};document.addEventListener('click',e=>{if(!e.target.closest('.search-wrap'))$('searchResults').hidden=true;});
- $('zoomIn').onclick=()=>zoom(1.5);$('zoomOut').onclick=()=>zoom(1/1.5);const vp=$('mapViewport');vp.addEventListener('wheel',e=>{e.preventDefault();const b=vp.getBoundingClientRect();zoom(e.deltaY<0?1.18:1/1.18,e.clientX-b.left,e.clientY-b.top);},{passive:false});vp.onpointerdown=e=>{if(e.target.closest('button'))return;drag={x:e.clientX,y:e.clientY,startX:e.clientX,startY:e.clientY,moved:false};vp.setPointerCapture(e.pointerId);};vp.onpointermove=e=>{if(drag){const dx=e.clientX-drag.x,dy=e.clientY-drag.y;if(Math.hypot(e.clientX-drag.startX,e.clientY-drag.startY)>4)drag.moved=true;view.x+=dx;view.y+=dy;drag.x=e.clientX;drag.y=e.clientY;$('mapTooltip').hidden=true;requestAnimationFrame(draw);return;}const i=hit(e);if(i!==hover){hover=i;requestAnimationFrame(draw);}const tip=$('mapTooltip');if(i>=0&&M.areas[i]){const a=M.areas[i],h=history[i];if($('mapLevel').value==='lad'){const c=a.lad;tip.innerHTML='<b>'+esc(M.lads[c]?.name||'Unresolved LAD')+'</b><small>'+esc(c||'')+'</small>'+esc(formatMetric(c?ladValue(c):null));}else tip.innerHTML='<b>'+esc(a.name)+'</b><small>'+esc(a.code)+'</small>'+esc(formatMetric(valueAt(i)))+'<small>'+fmt(h?.[0]??0)+' retained transactions</small>';const b=vp.getBoundingClientRect();tip.style.left=Math.min(e.clientX-b.left+15,vp.clientWidth-240)+'px';tip.style.top=Math.min(e.clientY-b.top+15,vp.clientHeight-95)+'px';tip.hidden=false;}else tip.hidden=true;};vp.onpointerup=e=>{if(!drag)return;const moved=drag.moved;drag=null;if(!moved){const i=hit(e);if(i>=0){const code=M.areas[i].lad;if($('mapLevel').value==='lad'){if(code)choose('lad',code,false);}else choose('lsoa',i,false);}}};vp.onpointercancel=()=>drag=null;vp.onpointerleave=()=>{$('mapTooltip').hidden=true;hover=-1;};vp.onkeydown=e=>{if(e.key==='+'||e.key==='=')zoom(1.5);if(e.key==='-')zoom(1/1.5);};
- $('exportView').onclick=exportData;let rt;window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{resize();renderDetails();renderComparison();renderLocalExplorer().catch(showError);},150);});
-}
 function setYear(v){year=v;populateControls();updateData();}
 async function exportData(){const csvrow=a=>a.map(v=>'"'+String(v??'').replaceAll('"','""')+'"').join(',');let rows=[['lsoa21cd','lsoa21nm','year','policy','retained_transactions','metric','value','unit']];if($('mapLevel').value==='lad'){rows=[['lad26cd','lad_name','year','policy','metric','value','unit']];for(const [code,a] of Object.entries(M.lads))rows.push([code,a.name,year,mode==='policy'?policy:'current',metric,ladValue(code),metric==='deltaEtr'?'percentage points':metric==='bill'||metric==='deltaBill'||metric==='afterBill'?'GBP':'percent']);}else{for(let i=0;i<M.areas.length;i++){const a=M.areas[i];rows.push([a.code,a.name,year,mode==='policy'?policy:'current',history[i]?.[0]??0,metric,valueAt(i),metric==='deltaEtr'?'percentage points':metric==='bill'||metric==='deltaBill'||metric==='afterBill'?'GBP':metric==='n'?'count':'percent']);}}const text=rows.map(csvrow).join('\n'),filename='council-tax-'+$('mapLevel').value+'-'+year+'-'+(mode==='policy'?'policy'+policy+'-':'')+metric;let blob,name;if('CompressionStream'in window){const stream=new Blob([text],{type:'text/csv;charset=utf-8'}).stream().pipeThrough(new CompressionStream('gzip'));blob=await new Response(stream).blob();name=filename+'.csv.gz';}else{blob=new Blob([JSON.stringify({columns:rows[0],data:rows.slice(1)})],{type:'application/json'});name=filename+'.json';}const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);}
+/* Each page initializes only the controls that it contains. */
+function on(id,event,fn){const el=$(id);if(el)el.addEventListener(event,fn);}
+function bind(){
+  on('baselineLad','change',renderBaselineLocal);
+  on('baselineYear','change',renderContext);
+  on('bandSource','change',renderContext);
+  on('explorerLevel','change',()=>{explorerNeighbourhoods();renderLocalExplorer().catch(showError);});
+  on('explorerLad','change',e=>{explorerLad=e.target.value;explorerNeighbourhoods();renderLocalExplorer().catch(showError);});
+  on('explorerLsoa','change',e=>{explorerLsoa=e.target.value;renderLocalExplorer().catch(showError);});
+  on('explorerYear','change',e=>{explorerYear=+e.target.value;renderLocalExplorer().catch(showError);});
+  on('explorerBandSource','change',()=>renderLocalExplorer().catch(showError));
+  on('useMapArea','click',useMapInExplorer);
+  on('openExplorerFromMap','click',e=>{
+    if($('explorerLad'))useMapInExplorer();
+    else{e.preventDefault();location.href='regressivity.html?year='+year+(selectedLad()?'&area='+encodeURIComponent(selectedLad()):'')+'#localDetails';}
+  });
+  on('useExplorerArea','click',()=>{$('parameterArea').value=selectedLad()||'';renderComparison();});
+  on('multiplierVariant','change',renderMultipliers);
+  for(const id of ['compareYear','comparePolicy','parameterArea','neighbourMetric'])on(id,'change',renderComparison);
+  if(!$('mapCanvas'))return;
+  on('mapLevel','change',()=>{choose(null);updateData();});
+  on('year','change',e=>setYear(+e.target.value));
+  on('yearRange','input',e=>setText('timelineYear',e.target.value));
+  on('yearRange','change',e=>setYear(+e.target.value));
+  on('prevYear','click',()=>setYear(Math.max(mode==='current'?1995:2022,year-1)));
+  on('nextYear','click',()=>setYear(Math.min(2025,year+1)));
+  on('policy','change',e=>{policy=+e.target.value;updateData();});
+  on('metric','change',e=>{metric=e.target.value;legend();setText('mapTitle',metrics().find(v=>v[0]===metric)[1]);draw();});
+  on('reset','click',()=>{choose(null);$('search').value='';});
+  on('clearSelection','click',()=>choose(null));
+ $('search').oninput=e=>{const q=e.target.value.trim().toLowerCase(),el=$('searchResults');el.replaceChildren();if(q.length<2){el.hidden=true;return;}const matches=[...Object.entries(M.lads).filter(([c,a])=>(c+' '+a.name).toLowerCase().includes(q)).slice(0,5).map(([code,a])=>({type:'lad',value:code,name:a.name,code})),...M.areas.flatMap((a,i)=>(a.code+' '+a.name).toLowerCase().includes(q)?[{type:'lsoa',value:i,name:a.name,code:a.code}]:[]).slice(0,8)];for(const r of matches){const b=document.createElement('button');b.innerHTML=esc(r.name)+'<small>'+esc(r.code)+' · '+(r.type==='lad'?'Local authority':'LSOA neighbourhood')+'</small>';b.onclick=()=>{choose(r.type,r.value);$('search').value=r.name;};el.appendChild(b);}if(!matches.length)el.innerHTML='<p class="note" style="padding:10px">No matching area. Try a name or LSOA code (for example, E01000001).</p>';el.hidden=false;};$('search').onkeydown=e=>{if(e.key==='Enter')$('searchResults').querySelector('button')?.click();if(e.key==='Escape')$('searchResults').hidden=true;};document.addEventListener('click',e=>{if(!e.target.closest('.search-wrap'))$('searchResults').hidden=true;});
+ $('zoomIn').onclick=()=>zoom(1.5);$('zoomOut').onclick=()=>zoom(1/1.5);const vp=$('mapViewport');vp.addEventListener('wheel',e=>{e.preventDefault();const b=vp.getBoundingClientRect();zoom(e.deltaY<0?1.18:1/1.18,e.clientX-b.left,e.clientY-b.top);},{passive:false});vp.onpointerdown=e=>{if(e.target.closest('button'))return;drag={x:e.clientX,y:e.clientY,startX:e.clientX,startY:e.clientY,moved:false};vp.setPointerCapture(e.pointerId);};vp.onpointermove=e=>{if(drag){const dx=e.clientX-drag.x,dy=e.clientY-drag.y;if(Math.hypot(e.clientX-drag.startX,e.clientY-drag.startY)>4)drag.moved=true;view.x+=dx;view.y+=dy;drag.x=e.clientX;drag.y=e.clientY;$('mapTooltip').hidden=true;requestAnimationFrame(draw);return;}const i=hit(e);if(i!==hover){hover=i;requestAnimationFrame(draw);}const tip=$('mapTooltip');if(i>=0&&M.areas[i]){const a=M.areas[i],h=history[i];if($('mapLevel').value==='lad'){const c=a.lad;tip.innerHTML='<b>'+esc(M.lads[c]?.name||'Unresolved LAD')+'</b><small>'+esc(c||'')+'</small>'+esc(formatMetric(c?ladValue(c):null));}else tip.innerHTML='<b>'+esc(a.name)+'</b><small>'+esc(a.code)+'</small>'+esc(formatMetric(valueAt(i)))+'<small>'+fmt(h?.[0]??0)+' retained transactions</small>';const b=vp.getBoundingClientRect();tip.style.left=Math.min(e.clientX-b.left+15,vp.clientWidth-240)+'px';tip.style.top=Math.min(e.clientY-b.top+15,vp.clientHeight-95)+'px';tip.hidden=false;}else tip.hidden=true;};vp.onpointerup=e=>{if(!drag)return;const moved=drag.moved;drag=null;if(!moved){const i=hit(e);if(i>=0){const code=M.areas[i].lad;if($('mapLevel').value==='lad'){if(code)choose('lad',code,false);}else choose('lsoa',i,false);}}};vp.onpointercancel=()=>drag=null;vp.onpointerleave=()=>{$('mapTooltip').hidden=true;hover=-1;};vp.onkeydown=e=>{if(e.key==='+'||e.key==='=')zoom(1.5);if(e.key==='-')zoom(1/1.5);};
+
+  on('exportView','click',exportData);
+  let rt;window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{resize();renderDetails();renderComparison();renderLocalExplorer().catch(showError);},150);});
+}
+
 async function main(){
- [M,G,L,placeNames]=await Promise.all([get('meta.json'),get('geometry.json'),get('local.json'),get('place-names.json')]);for(const a of M.areas){a.lad=L.links[a.code]??null;a.officialName=a.name;const p=placeNames.areas[a.code];if(p?.[1]){a.wardName=p[1];a.name=p[1]+' ward · '+a.officialName;}}paths=G.paths.map(d=>new Path2D(d));canvas=$('mapCanvas');ctx=canvas.getContext('2d');hitCanvas=document.createElement('canvas');hitctx=hitCanvas.getContext('2d',{willReadFrequently:true});$('policy').innerHTML=POLICIES.map((p,i)=>`<option value="${i+1}">${i+1}. ${p}</option>`).join('');const thresholds=['≤40,000','40,001–52,000','52,001–68,000','68,001–88,000','88,001–120,000','120,001–160,000','160,001–320,000','>320,000'];$('statutoryTable').innerHTML=BANDS.map((b,i)=>`<tr><td>${b}</td><td>${thresholds[i]}</td><td>${[6,7,8,9,11,13,15,18][i]}/9</td></tr>`).join('');$('comparePolicy').innerHTML=POLICIES.map((p,i)=>`<option value="${i+1}"${i===5?' selected':''}>${i+1}. ${p}</option>`).join('');$('parameterArea').innerHTML='<option value="">England · summary of local schedules</option>'+Object.entries(M.lads).sort((a,b)=>a[1].name.localeCompare(b[1].name)).map(([c,a])=>`<option value="${c}">${esc(a.name)}</option>`).join('');$('explorerLad').innerHTML='<option value="">England overview</option>'+Object.entries(M.lads).sort((a,b)=>a[1].name.localeCompare(b[1].name)).map(([c,a])=>`<option value="${c}">${esc(a.name)}</option>`).join('');$('explorerYear').innerHTML=Array.from({length:31},(_,j)=>`<option${j===30?' selected':''}>${1995+j}</option>`).join('');$('baselineLad').innerHTML=$('explorerLad').innerHTML;$('baselineLad').value='E09000033';$('baselineYear').innerHTML=$('explorerYear').innerHTML;explorerNeighbourhoods();populateControls();bind();resize();await updateData();await renderLocalExplorer();document.documentElement.dataset.atlasReady='true';document.dispatchEvent(new Event('atlas-ready'));
+  const hasMap=!!$('mapCanvas');
+  [M,L]=await Promise.all([get('meta.json'),get('local.json')]);
+  const options='<option value="">England overview</option>'+Object.entries(M.lads).sort((a,b)=>a[1].name.localeCompare(b[1].name)).map(([c,a])=>`<option value="${c}">${esc(a.name)}</option>`).join('');
+  const years=Array.from({length:31},(_,j)=>`<option${j===30?' selected':''}>${1995+j}</option>`).join('');
+  if($('baselineLad')){
+    $('baselineLad').innerHTML=options;$('baselineLad').value='E09000033';$('baselineYear').innerHTML=years;
+    const thresholds=['≤40,000','40,001–52,000','52,001–68,000','68,001–88,000','88,001–120,000','120,001–160,000','160,001–320,000','>320,000'];
+    $('statutoryTable').innerHTML=BANDS.map((b,i)=>`<tr><td>${b}</td><td>${thresholds[i]}</td><td>${[6,7,8,9,11,13,15,18][i]}/9</td></tr>`).join('');
+    renderContext();
+  }
+  if($('compareYear')){
+    $('parameterArea').innerHTML=options.replace('England overview','England · summary of local schedules');
+    $('comparePolicy').innerHTML=POLICIES.map((p,i)=>`<option value="${i+1}"${i===5?' selected':''}>${i+1}. ${p}</option>`).join('');
+    renderComparison();
+  }
+  if($('recentEtrChart')){
+    const annual=Object.values(M.annual).filter(r=>r.year>=2021).sort((a,b)=>a.year-b.year);
+    lineChart('recentEtrChart',annual.map(r=>[r.year,r.mean_etr_pct]),{unit:'%',selectedYear:2025});
+    $('recentEtrTable').innerHTML='<table><thead><tr><th>Year</th><th>Transactions</th><th>Mean ETR (%)</th></tr></thead><tbody>'+annual.map(r=>`<tr><th>${r.year}</th><td>${fmt(r.n)}</td><td>${fmt(r.mean_etr_pct,3)}</td></tr>`).join('')+'</tbody></table>';
+  }
+  if(hasMap){
+    [G,placeNames]=await Promise.all([get('geometry.json'),get('place-names.json')]);
+    for(const a of M.areas){a.lad=L.links[a.code]??null;a.officialName=a.name;const p=placeNames.areas[a.code];if(p?.[1]){a.wardName=p[1];a.name=p[1]+' ward · '+a.officialName;}}
+    paths=G.paths.map(d=>new Path2D(d));canvas=$('mapCanvas');ctx=canvas.getContext('2d');hitCanvas=document.createElement('canvas');hitctx=hitCanvas.getContext('2d',{willReadFrequently:true});
+    $('policy').innerHTML=POLICIES.map((p,i)=>`<option value="${i+1}">${i+1}. ${p}</option>`).join('');
+    const params=new URLSearchParams(location.search),queryYear=+params.get('year');
+    if(Number.isInteger(queryYear)&&queryYear>=(IS_REFORM?2022:1995)&&queryYear<=2025)year=queryYear;
+    if($('explorerLad')){
+      $('explorerLad').innerHTML=options;$('explorerYear').innerHTML=years;
+      explorerNeighbourhoods();
+      const code=params.get('area');if(code&&M.lads[code]){explorerLad=code;$('explorerLad').value=code;}
+      explorerYear=year;$('explorerYear').value=year;
+    }
+    populateControls();bind();resize();await updateData();await renderLocalExplorer();
+  }else bind();
+  document.documentElement.dataset.atlasReady='true';document.dispatchEvent(new Event('atlas-ready'));
 }
 main().catch(showError);
 
-if(IS_REFORM){const report=()=>parent.postMessage({type:'council-tax-map-height',height:Math.ceil(document.body.scrollHeight)},location.origin);new ResizeObserver(report).observe(document.body);window.addEventListener('load',report);}else{window.addEventListener('message',event=>{const frame=$('reformFrame');if(frame&&event.origin===location.origin&&event.source===frame.contentWindow&&event.data?.type==='council-tax-map-height'&&Number.isFinite(event.data.height))frame.style.height=Math.max(950,Math.min(2400,event.data.height+15))+'px';});}
-
 document.querySelectorAll('.appendix-nav a').forEach(a=>a.addEventListener('click',()=>{const target=document.getElementById(a.hash.slice(1));if(target?.tagName==='DETAILS')target.open=true;}));
+document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',()=>{const target=document.getElementById(a.hash.slice(1));if(target){let p=target;while(p){if(p.tagName==='DETAILS')p.open=true;p=p.parentElement;}requestAnimationFrame(()=>target.scrollIntoView());}}));
