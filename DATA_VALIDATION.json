@@ -21,5 +21,12 @@
     "mapped": 564816,
     "unresolved": 559
   },
-  "local_coverage_reconciles": true
+  "local_coverage_reconciles": true,
+  "reconciled_edition": "2026-11-11",
+  "scientific_reconciliation_checks": 11,
+  "all_current_export_checks_pass": true,
+  "model_groups": 8,
+  "fitted_specifications": 16,
+  "model_refitting_during_website_refresh": false,
+  "publishing_during_website_refresh": false
 }

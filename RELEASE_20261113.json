@@ -1,0 +1,37 @@
+{
+  "status": "PASS",
+  "paper": "07_Revision_1111/3.Website_1111/Council_Tax_Paper_1113.pdf",
+  "paper_sha256": "c10847d8bb0c018ff2a915e2e119b450088b4f12f4f03eb6fa93685ff72f03c7",
+  "assertions": {
+    "paper_title_matches": true,
+    "equal_contribution_statement": true,
+    "random_order_statement": true,
+    "aea_key": true,
+    "urban_sample": true,
+    "rural_sample": true,
+    "national_sample": true,
+    "epc_sample": true,
+    "repeat_sample": true
+  },
+  "author_separator": "ⓡ",
+  "author_order_note": "Both authors contributed equally to this work. The name order is random (AEA Randomisation Key: u7zgIlv5s-ok).",
+  "three_main_pages": [
+    [
+      "system",
+      "index.html",
+      "How Does Council Tax Work?"
+    ],
+    [
+      "regressivity",
+      "regressivity.html",
+      "Regressivity"
+    ],
+    [
+      "reform",
+      "reform.html",
+      "Reform Simulator"
+    ]
+  ],
+  "no_estimation": true,
+  "publishing_performed": false
+}

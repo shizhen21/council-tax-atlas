@@ -1,0 +1,121 @@
+{
+  "checked_at_utc": "2026-11-11T11:47:18.889820+00:00",
+  "checks": [
+    {
+      "name": "Annual tax sample, ETR and Suits, 1995\u20132025",
+      "source": "05_Latest_Results_and_Overleaf/Calculated_Results/07_Current_ETR_Suits/results/ETR_Upper_Trim_0.5pct",
+      "rows": 31,
+      "values": 310,
+      "failures": 0,
+      "max_abs_numeric_difference": 0.0,
+      "examples": [],
+      "status": "PASS"
+    },
+    {
+      "name": "All national reform summaries, 24 policy-years",
+      "source": "05_Latest_Results_and_Overleaf/Calculated_Results/08_Policy_Simulation/results/Six_Policies_2022_2025_Upper_ETR",
+      "rows": 24,
+      "values": 528,
+      "failures": 0,
+      "max_abs_numeric_difference": 0.0,
+      "examples": [],
+      "status": "PASS"
+    },
+    {
+      "name": "All LAD reform Suits, 7,104 LAD-policy-years",
+      "source": "05_Latest_Results_and_Overleaf/Calculated_Results/08_Policy_Simulation/results/Six_Policies_2022_2025_Upper_ETR",
+      "rows": 7104,
+      "values": 63936,
+      "failures": 0,
+      "max_abs_numeric_difference": 0.0,
+      "examples": [],
+      "status": "PASS"
+    },
+    {
+      "name": "All local original and reclassified band multipliers",
+      "source": "05_Latest_Results_and_Overleaf/Calculated_Results/08_Policy_Simulation/results/Six_Policies_2022_2025_Upper_ETR",
+      "rows": 18378,
+      "values": 18378,
+      "failures": 0,
+      "max_abs_numeric_difference": 0.0,
+      "examples": [],
+      "status": "PASS"
+    },
+    {
+      "name": "All LAD rebanding thresholds",
+      "source": "05_Latest_Results_and_Overleaf/Calculated_Results/08_Policy_Simulation/results/Six_Policies_2022_2025_Upper_ETR",
+      "rows": 9472,
+      "values": 9472,
+      "failures": 0,
+      "max_abs_numeric_difference": 0.0,
+      "examples": [],
+      "status": "PASS"
+    },
+    {
+      "name": "All income and deprivation policy-decile results",
+      "source": "05_Latest_Results_and_Overleaf/Calculated_Results/08_Policy_Simulation/results/Six_Policies_2022_2025_Upper_ETR",
+      "rows": 480,
+      "values": 6720,
+      "failures": 0,
+      "max_abs_numeric_difference": 0.0,
+      "examples": [],
+      "status": "PASS"
+    },
+    {
+      "name": "Original-band LAD queries versus current policy revenues and samples",
+      "source": "05_Latest_Results_and_Overleaf/Calculated_Results/08_Policy_Simulation/results/Six_Policies_2022_2025_Upper_ETR",
+      "rows": 7104,
+      "values": 21312,
+      "failures": 0,
+      "max_abs_numeric_difference": 4.4565194912138395e-07,
+      "examples": [],
+      "status": "PASS"
+    },
+    {
+      "name": "LSOA retained transaction counts, all 31 years",
+      "source": "05_Latest_Results_and_Overleaf/Calculated_Results/07_Current_ETR_Suits/results/ETR_Upper_Trim_0.5pct",
+      "rows": 1028834,
+      "values": 1028834,
+      "failures": 0,
+      "max_abs_numeric_difference": 0.0,
+      "examples": [],
+      "status": "PASS"
+    },
+    {
+      "name": "Historical ETR map means, four manuscript map years",
+      "source": "05_Latest_Results_and_Overleaf/Calculated_Results/07_Current_ETR_Suits/results/ETR_Upper_Trim_0.5pct",
+      "rows": 131463,
+      "values": 262926,
+      "failures": 0,
+      "max_abs_numeric_difference": 4.999999999977245e-06,
+      "examples": [],
+      "status": "PASS"
+    },
+    {
+      "name": "All LSOA reform-map values versus saved paper exports",
+      "source": "05_Latest_Results_and_Overleaf/Calculated_Results/08_Policy_Simulation/results/Six_Policies_2022_2025_Upper_ETR",
+      "rows": 800886,
+      "values": 2402658,
+      "failures": 0,
+      "max_abs_numeric_difference": 0.005000000000002558,
+      "examples": [],
+      "status": "PASS"
+    },
+    {
+      "name": "Official national and LAD stock-share inputs",
+      "source": "05_Latest_Results_and_Overleaf/Calculated_Results/04_Samples_Descriptions/results/Chapter_Data_Updated/CSV",
+      "rows": 2376,
+      "values": 2376,
+      "failures": 0,
+      "max_abs_numeric_difference": 0.0,
+      "examples": [],
+      "status": "PASS"
+    }
+  ],
+  "scope_limits": [
+    "No raw PPD/VOA/EPC re-linkage or model fitting was performed.",
+    "Agreement is with retained current scientific exports, not proof of every original record linkage.",
+    "Historical ETR means independently checked for the four exported map years; retained counts checked for all 31 years.",
+    "Live resources sampled by exact hashes; every deployed shard was not downloaded."
+  ]
+}

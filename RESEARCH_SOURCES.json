@@ -1,0 +1,571 @@
+{
+  "release": "11 November 2026",
+  "scope": "Aggregate model exports and finished research figures only",
+  "files": [
+    {
+      "file": "downloads/research/National/MODEL_FIT_TABLE.csv.gz",
+      "sha256": "664bec9ed92bc3823b273cb2a498891adf632a308559556f23be7e6c628c1f19",
+      "bytes": 293
+    },
+    {
+      "file": "downloads/research/National/Figures6_9_Table7_Annual_Band_Only_R2.csv.gz",
+      "sha256": "b9e87da24e8ae304d853a5a3839c6d57e7941eec52b5b0494b5a2091b3ca85cd",
+      "bytes": 3381
+    },
+    {
+      "file": "downloads/research/National/Figure7_Table8_Band_Price_Gaps_With_CI.csv.gz",
+      "sha256": "79245aaafdd127342e332a30c89f17c3d7083ff5597506ecd71408e9d0ca22a5",
+      "bytes": 225011
+    },
+    {
+      "file": "downloads/research/National/Figure8_Annual_Band_Residual_Dispersion.csv.gz",
+      "sha256": "9619b44973e6de23abf9da88038bcb19ad7d363954849f44d884872a5ce0e7e4",
+      "bytes": 6172
+    },
+    {
+      "file": "downloads/research/National/Continuous_Price_Index_With_Band.csv.gz",
+      "sha256": "eb2fec0540de91ffa672d84d6a424367e8deb8aabe94004bca1931df75124869",
+      "bytes": 86289
+    },
+    {
+      "file": "downloads/research/National/Continuous_Price_Index_Without_Band.csv.gz",
+      "sha256": "e4364744f9901706b728d95f839d0fcd19519e4da5fa590ad0ee3ed854a72ae4",
+      "bytes": 10987
+    },
+    {
+      "file": "downloads/research/National/Annual_R2_Trend_Beta_SE.csv.gz",
+      "sha256": "fc82ae906eff679472b10cd78b891403688704d9e6e0e778e47306cb9a8dc353",
+      "bytes": 196
+    },
+    {
+      "file": "downloads/research/National/Appendix_Weighted_And_Pooled_Within_Band_Dispersion.csv.gz",
+      "sha256": "d7c561a4947bddb6e3e765f4842525b83344b483aaec3e44125e1d2204e6f16d",
+      "bytes": 662
+    },
+    {
+      "file": "downloads/research/National/PARAMETRIC_COEFFICIENTS_With_Band.csv.gz",
+      "sha256": "621aab5d788f3300232f79aa49741f87e03ad2b365434359f35887c2e414679b",
+      "bytes": 705
+    },
+    {
+      "file": "downloads/research/National/PARAMETRIC_COEFFICIENTS_Without_Band.csv.gz",
+      "sha256": "32b302810260cd2c9ff64d101b72ae5189b5655118de62a34b6ad81f154a1659",
+      "bytes": 399
+    },
+    {
+      "file": "downloads/research/National/SMOOTH_EDF_With_Band.csv.gz",
+      "sha256": "5c6873218bee4f3620b069a091fba4089f333c0090e1b3b6dcb82375b9f66bda",
+      "bytes": 629
+    },
+    {
+      "file": "downloads/research/National/SMOOTH_EDF_Without_Band.csv.gz",
+      "sha256": "00ebaab0da7abe72003a4430d70e4accf091879e05f290ec120c5cbb967a58fb",
+      "bytes": 509
+    },
+    {
+      "file": "downloads/research/National/Annual_Spatial_Effects_With_Band.csv.gz",
+      "sha256": "4ea99c44ff7518cb3bb814334454795acae76bf300bf95733dfbde89a9c14b6e",
+      "bytes": 969372
+    },
+    {
+      "file": "downloads/research/National/Annual_Spatial_Effects_Without_Band.csv.gz",
+      "sha256": "b2602a5b1f473223e1dcbba5ff02e4bcb4e76a8fadb021c94087f8383473994b",
+      "bytes": 968412
+    },
+    {
+      "file": "downloads/research/London/MODEL_FIT_TABLE.csv.gz",
+      "sha256": "c0fd3f02b96b1a0e874e5be961d6691e5c60801cba85d9163cb9a7d2f1bf9e13",
+      "bytes": 292
+    },
+    {
+      "file": "downloads/research/London/Figures6_9_Table7_Annual_Band_Only_R2.csv.gz",
+      "sha256": "8459b71937711d96b96726fe860398a6026b5898db2af905cd04dbac83c3999c",
+      "bytes": 1142
+    },
+    {
+      "file": "downloads/research/London/Figure7_Table8_Band_Price_Gaps_With_CI.csv.gz",
+      "sha256": "0550d9d3818c2f193a94c45e0e2123ae6e955abb1f9d432cfa7bcc4f8fffb949",
+      "bytes": 226880
+    },
+    {
+      "file": "downloads/research/London/Figure8_Annual_Band_Residual_Dispersion.csv.gz",
+      "sha256": "fd3fa464ff5b66c53ff59bd8ff5c84a175127f56645eab6b19694a8a639bb3de",
+      "bytes": 6042
+    },
+    {
+      "file": "downloads/research/London/Continuous_Price_Index_With_Band.csv.gz",
+      "sha256": "0903fb8342e6492929472ef8f7082dbcb52401501be2cfca33408665cbfab5ed",
+      "bytes": 87166
+    },
+    {
+      "file": "downloads/research/London/Continuous_Price_Index_Without_Band.csv.gz",
+      "sha256": "8f6293c58972ca5719f3634c2db971f529ebca58cd7b4ec2d4562ced8c09afa8",
+      "bytes": 11103
+    },
+    {
+      "file": "downloads/research/London/Annual_R2_Trend_Beta_SE.csv.gz",
+      "sha256": "35ade3b3169ff03e87f6022281b076b6ffde5c7da2e4c1d57205e3fc8d119e41",
+      "bytes": 192
+    },
+    {
+      "file": "downloads/research/London/Appendix_Weighted_And_Pooled_Within_Band_Dispersion.csv.gz",
+      "sha256": "efeb7643dfae9531525bbda539f997225cc53e0bf19b5a6298fb3e91c02ac318",
+      "bytes": 675
+    },
+    {
+      "file": "downloads/research/London/PARAMETRIC_COEFFICIENTS_With_Band.csv.gz",
+      "sha256": "0a9842869fd5515fcee4ac78f54d8edffaa132d3b5969661df3cf85ed53e7716",
+      "bytes": 713
+    },
+    {
+      "file": "downloads/research/London/PARAMETRIC_COEFFICIENTS_Without_Band.csv.gz",
+      "sha256": "522df807c8abca05ec9be34474d6841a5326b097225a81ef60364209b7780abc",
+      "bytes": 403
+    },
+    {
+      "file": "downloads/research/London/SMOOTH_EDF_With_Band.csv.gz",
+      "sha256": "40463580353e279acaef2f99dd36e3e589cab31f515f3446105fe7e20fd8b231",
+      "bytes": 657
+    },
+    {
+      "file": "downloads/research/London/SMOOTH_EDF_Without_Band.csv.gz",
+      "sha256": "7f9bf877d6746efb5da03c34994bff2c8f0319b4db55f52c0996183ef1dbb5c0",
+      "bytes": 535
+    },
+    {
+      "file": "downloads/research/London/Annual_Spatial_Effects_With_Band.csv.gz",
+      "sha256": "eb74d4e80e62ed0f24631f1915f3a4c07d0bb61c5f19a259c143c764e12cb39d",
+      "bytes": 125242
+    },
+    {
+      "file": "downloads/research/London/Annual_Spatial_Effects_Without_Band.csv.gz",
+      "sha256": "50c41a75cee4bfb32b86b21a3a23b6c2d00447ca96d6d2659294a2bd1ed2cb04",
+      "bytes": 125415
+    },
+    {
+      "file": "downloads/research/Non_London/MODEL_FIT_TABLE.csv.gz",
+      "sha256": "cb84744cb4d7d89f5fac08df02387fc8ecd44dd64e4e061f16dff3860a230339",
+      "bytes": 293
+    },
+    {
+      "file": "downloads/research/Non_London/Figures6_9_Table7_Annual_Band_Only_R2.csv.gz",
+      "sha256": "f26aee79c30bfef74017f51007d661d9f68969ed4ecee6b6b979b15f00205f0e",
+      "bytes": 1159
+    },
+    {
+      "file": "downloads/research/Non_London/Figure7_Table8_Band_Price_Gaps_With_CI.csv.gz",
+      "sha256": "3d19d813984f56ae1ef3184685acb51d2f2cf4eb206f6e33dd4de52412cb3b6c",
+      "bytes": 225001
+    },
+    {
+      "file": "downloads/research/Non_London/Figure8_Annual_Band_Residual_Dispersion.csv.gz",
+      "sha256": "cc19f20bc621e239bcd712894c166026fffe99eeb82c16e859d1f5ce1577642f",
+      "bytes": 6111
+    },
+    {
+      "file": "downloads/research/Non_London/Continuous_Price_Index_With_Band.csv.gz",
+      "sha256": "6a50ba1329ed613e4d655b1ee463145b82597c7f322de0554b2df4955bd3491b",
+      "bytes": 86197
+    },
+    {
+      "file": "downloads/research/Non_London/Continuous_Price_Index_Without_Band.csv.gz",
+      "sha256": "f08c3b1d2d40aeed208b855baa3d011ad9dc8381b87a8128782e10d6113dfdb9",
+      "bytes": 10929
+    },
+    {
+      "file": "downloads/research/Non_London/Annual_R2_Trend_Beta_SE.csv.gz",
+      "sha256": "42d63a1fce443e4311de4eaf5f044ff0929bf2c51ce5afff55408ef3601336a7",
+      "bytes": 200
+    },
+    {
+      "file": "downloads/research/Non_London/Appendix_Weighted_And_Pooled_Within_Band_Dispersion.csv.gz",
+      "sha256": "b574983618db2207852fb42ccb4d69bae9621c41821b2ea37f59b780b8105c95",
+      "bytes": 663
+    },
+    {
+      "file": "downloads/research/Non_London/PARAMETRIC_COEFFICIENTS_With_Band.csv.gz",
+      "sha256": "8e8c527d90acd77dcc2994caa0b805b442c3ef1c64f1884600b97d742cea12fc",
+      "bytes": 719
+    },
+    {
+      "file": "downloads/research/Non_London/PARAMETRIC_COEFFICIENTS_Without_Band.csv.gz",
+      "sha256": "c203624e8c0f4edb5ec96eff60e3f13c95b1429757e3cffcd08f5820878275e2",
+      "bytes": 401
+    },
+    {
+      "file": "downloads/research/Non_London/SMOOTH_EDF_With_Band.csv.gz",
+      "sha256": "46c7ab4ea4b3249ee94278d23bad696ec17210b7cc33d48a17c1840d01ce6f4c",
+      "bytes": 633
+    },
+    {
+      "file": "downloads/research/Non_London/SMOOTH_EDF_Without_Band.csv.gz",
+      "sha256": "0872c40148db3f56656480389e48317e03a4483c51e2d693ea99a6d864244ec3",
+      "bytes": 499
+    },
+    {
+      "file": "downloads/research/Non_London/Annual_Spatial_Effects_With_Band.csv.gz",
+      "sha256": "982e0445bd41a379c63e3972447bca29ffef19ae46a92c0bdacd73d7fdc6c09f",
+      "bytes": 860875
+    },
+    {
+      "file": "downloads/research/Non_London/Annual_Spatial_Effects_Without_Band.csv.gz",
+      "sha256": "8dc638b6e92c69116ea5993bf2b3d769c35b326d531c5ddd2a87efac70b5290b",
+      "bytes": 859935
+    },
+    {
+      "file": "downloads/research/EPC_Original/MODEL_FIT_TABLE.csv.gz",
+      "sha256": "2a8b115bd98dfeb2283e6592d131eb4379b26ff7a1e2f9b9b83a9ae28a786fa8",
+      "bytes": 291
+    },
+    {
+      "file": "downloads/research/EPC_Original/Figures6_9_Table7_Annual_Band_Only_R2.csv.gz",
+      "sha256": "f8764c984446905028c9f6c2fe8cb96199ba44eb4f26f1a47846e9c34a353c14",
+      "bytes": 529
+    },
+    {
+      "file": "downloads/research/EPC_Original/Figure7_Table8_Band_Price_Gaps_With_CI.csv.gz",
+      "sha256": "1e6208accaff01242f080135ef1697cd40e003d96d0db878d5103c6920e889b9",
+      "bytes": 90340
+    },
+    {
+      "file": "downloads/research/EPC_Original/Figure8_Annual_Band_Residual_Dispersion.csv.gz",
+      "sha256": "0d3d5063b505fe2bea619070796b843e019053d72d17c5d5a3c08d2ebc732644",
+      "bytes": 2594
+    },
+    {
+      "file": "downloads/research/EPC_Original/Continuous_Price_Index_With_Band.csv.gz",
+      "sha256": "38ceb51a9b63cfa41eee442773dd158e15ba17a1c9c8c7d33f57b00b5e90f7aa",
+      "bytes": 34136
+    },
+    {
+      "file": "downloads/research/EPC_Original/Continuous_Price_Index_Without_Band.csv.gz",
+      "sha256": "d2e197340ae1ee8f7ed47549beac4030fb2afa2dc119c1120723376e34783b0c",
+      "bytes": 4391
+    },
+    {
+      "file": "downloads/research/EPC_Original/Annual_R2_Trend_Beta_SE.csv.gz",
+      "sha256": "209e39760e69a789984dc348e667dd9543f491b3164531eaa21d32482466b499",
+      "bytes": 199
+    },
+    {
+      "file": "downloads/research/EPC_Original/Appendix_Weighted_And_Pooled_Within_Band_Dispersion.csv.gz",
+      "sha256": "5f363d6e06275c4e1b98759f307b77d5625bca3ff044ef45b4aa2ad98fec409f",
+      "bytes": 326
+    },
+    {
+      "file": "downloads/research/EPC_Original/PARAMETRIC_COEFFICIENTS_With_Band.csv.gz",
+      "sha256": "16703844febdb298278c64d2a685d627bcddaa87677979b9c7f2a97c799d996d",
+      "bytes": 733
+    },
+    {
+      "file": "downloads/research/EPC_Original/PARAMETRIC_COEFFICIENTS_Without_Band.csv.gz",
+      "sha256": "d85226aceb9a33adcc9f67faa8a9128b54bbd187a9a4b9385558c83b39f73edf",
+      "bytes": 412
+    },
+    {
+      "file": "downloads/research/EPC_Original/SMOOTH_EDF_With_Band.csv.gz",
+      "sha256": "b9e000e162587680415195c4a8b9ab2aa7c5bbf983e0aff61af2f5647510327c",
+      "bytes": 430
+    },
+    {
+      "file": "downloads/research/EPC_Original/SMOOTH_EDF_Without_Band.csv.gz",
+      "sha256": "4df8c6c2d274d44f4a1297c2be21f086c5d45bd154e9364d7e1bd72f6ff7157f",
+      "bytes": 302
+    },
+    {
+      "file": "downloads/research/EPC_Original/Annual_Spatial_Effects_With_Band.csv.gz",
+      "sha256": "8578ede330013aa7c25e1955863f691c3014a8092644532f464dab3c655d5fe3",
+      "bytes": 386068
+    },
+    {
+      "file": "downloads/research/EPC_Original/Annual_Spatial_Effects_Without_Band.csv.gz",
+      "sha256": "445f8cd57a780892a68b2e442efbf594385db075a3b03b6708c6a282807f716a",
+      "bytes": 386090
+    },
+    {
+      "file": "downloads/research/EPC_Controls/MODEL_FIT_TABLE.csv.gz",
+      "sha256": "d63977ff098b03a0b5005b06bc0e7ea10139f09c27805cae4e3b4e355d4ae6a9",
+      "bytes": 291
+    },
+    {
+      "file": "downloads/research/EPC_Controls/Figures6_9_Table7_Annual_Band_Only_R2.csv.gz",
+      "sha256": "f8764c984446905028c9f6c2fe8cb96199ba44eb4f26f1a47846e9c34a353c14",
+      "bytes": 529
+    },
+    {
+      "file": "downloads/research/EPC_Controls/Figure7_Table8_Band_Price_Gaps_With_CI.csv.gz",
+      "sha256": "d823677b46b2eb5faf6ee9a2d2b8eb1d46c4b5c1b924008b9ec2883e8f44de65",
+      "bytes": 90831
+    },
+    {
+      "file": "downloads/research/EPC_Controls/Figure8_Annual_Band_Residual_Dispersion.csv.gz",
+      "sha256": "3ffbeddd2419c25d64c92bb9b767ea02e50fa8e1ba7e621cf7fcb9ce1f61bd59",
+      "bytes": 2603
+    },
+    {
+      "file": "downloads/research/EPC_Controls/Continuous_Price_Index_With_Band.csv.gz",
+      "sha256": "6c0cffb66c1622b30d43ecc49b613779b6eb6004a1856a1e8ed7559e96e09209",
+      "bytes": 34062
+    },
+    {
+      "file": "downloads/research/EPC_Controls/Continuous_Price_Index_Without_Band.csv.gz",
+      "sha256": "ca6c648ce0d791821ff3d63dfe795602c70306e15c0d15983b3df8f074832b66",
+      "bytes": 4380
+    },
+    {
+      "file": "downloads/research/EPC_Controls/Annual_R2_Trend_Beta_SE.csv.gz",
+      "sha256": "77ca5d2f9acc656c28cec0a51f3271a434c91a71bd1aa6fab8b53af4e3a0f2ad",
+      "bytes": 198
+    },
+    {
+      "file": "downloads/research/EPC_Controls/Appendix_Weighted_And_Pooled_Within_Band_Dispersion.csv.gz",
+      "sha256": "ec0693677a4399494d6f7ef3a21d6da522b6adaae3f0b1c223d001c51578f865",
+      "bytes": 326
+    },
+    {
+      "file": "downloads/research/EPC_Controls/PARAMETRIC_COEFFICIENTS_With_Band.csv.gz",
+      "sha256": "c8fd73e0d983fe7e873c50250f081cc4fad2b1b1f3bb447e4402b422ee7ffc1e",
+      "bytes": 2558
+    },
+    {
+      "file": "downloads/research/EPC_Controls/PARAMETRIC_COEFFICIENTS_Without_Band.csv.gz",
+      "sha256": "2c6549a0fb185150f81a218681716b9d03d2dec7c6dae081d65f69a7ab3080af",
+      "bytes": 2160
+    },
+    {
+      "file": "downloads/research/EPC_Controls/SMOOTH_EDF_With_Band.csv.gz",
+      "sha256": "21a7e772843e9d3a37a970d6233b04a34c7cbbe80566e0a4c56cdcc19b27a11a",
+      "bytes": 429
+    },
+    {
+      "file": "downloads/research/EPC_Controls/SMOOTH_EDF_Without_Band.csv.gz",
+      "sha256": "3141ffd81a8d16fe3fa8911482fba5507863fe6210403e39d005ae77107cc954",
+      "bytes": 307
+    },
+    {
+      "file": "downloads/research/EPC_Controls/Annual_Spatial_Effects_With_Band.csv.gz",
+      "sha256": "2e99f35f8c015d69d82817b1a74d763e56c9eb935782cb70931de1275bb32062",
+      "bytes": 385737
+    },
+    {
+      "file": "downloads/research/EPC_Controls/Annual_Spatial_Effects_Without_Band.csv.gz",
+      "sha256": "3fd39072306a60b90475a5bdc2e9373d1c901eb629726ce8f7469d433ac83133",
+      "bytes": 385617
+    },
+    {
+      "file": "downloads/research/Cross_Period/MODEL_FIT_TABLE.csv.gz",
+      "sha256": "56c4d80ba082da2cb06c2e44554eabdcbc94a981e92f3508506e093f31f2297b",
+      "bytes": 289
+    },
+    {
+      "file": "downloads/research/Cross_Period/Figures6_9_Table7_Annual_Band_Only_R2.csv.gz",
+      "sha256": "b0aeb6aa269546db774c239ac170e7bbe957043acae8ff8e90b8f4e32cd666fa",
+      "bytes": 1148
+    },
+    {
+      "file": "downloads/research/Cross_Period/Figure7_Table8_Band_Price_Gaps_With_CI.csv.gz",
+      "sha256": "a0d34abc802f2a98428cc7826b1da4b232d6c7a7ba4680cd25feadf2d86a7a47",
+      "bytes": 225500
+    },
+    {
+      "file": "downloads/research/Cross_Period/Figure8_Annual_Band_Residual_Dispersion.csv.gz",
+      "sha256": "45e4d0e4c7f2a655f9f668b7d956fe0e4b65a6d34c1e92c38189601ad548b175",
+      "bytes": 6052
+    },
+    {
+      "file": "downloads/research/Cross_Period/Continuous_Price_Index_With_Band.csv.gz",
+      "sha256": "a7a4e9871f533a16a264ec3c5bb9fbfef051354ad0b5264113ec944d3c42999b",
+      "bytes": 86339
+    },
+    {
+      "file": "downloads/research/Cross_Period/Continuous_Price_Index_Without_Band.csv.gz",
+      "sha256": "d497850cf884cf524e9db0d4e2884bf25bba89e1186f9142372b0e194aaddd06",
+      "bytes": 10966
+    },
+    {
+      "file": "downloads/research/Cross_Period/Annual_R2_Trend_Beta_SE.csv.gz",
+      "sha256": "00ade012dfccb4f4e7aa5a5930bdd52d8b998cef92b6a2b199b29ca08c30a6b1",
+      "bytes": 201
+    },
+    {
+      "file": "downloads/research/Cross_Period/Appendix_Weighted_And_Pooled_Within_Band_Dispersion.csv.gz",
+      "sha256": "accb06a9a2a860176a5c4012be6d6bb4b7e639e5788b119ad6137407ea429be6",
+      "bytes": 669
+    },
+    {
+      "file": "downloads/research/Cross_Period/PARAMETRIC_COEFFICIENTS_With_Band.csv.gz",
+      "sha256": "ff1e95c6bf312b13b67a8d7a8670f266dad6369cf567f7e2f8b956631785b144",
+      "bytes": 2227
+    },
+    {
+      "file": "downloads/research/Cross_Period/PARAMETRIC_COEFFICIENTS_Without_Band.csv.gz",
+      "sha256": "210201a5b059a25044604b2b9cf8d7266f3963bf861b019ed009aebc8b4c4280",
+      "bytes": 1801
+    },
+    {
+      "file": "downloads/research/Cross_Period/SMOOTH_EDF_With_Band.csv.gz",
+      "sha256": "ef866557abdbbe1cdcd2ae61606ae5a8db656116995f08ca70e75f4d06329989",
+      "bytes": 654
+    },
+    {
+      "file": "downloads/research/Cross_Period/SMOOTH_EDF_Without_Band.csv.gz",
+      "sha256": "23f2c572a60734677b8d60a1d815dc6d9c02ddf10d65c2a754daba69bcc0fdc3",
+      "bytes": 528
+    },
+    {
+      "file": "downloads/research/Cross_Period/Annual_Spatial_Effects_With_Band.csv.gz",
+      "sha256": "e717a7a3dafaef5893b9f33394d7f575a5a37e9cb979f7e074de611f433a052a",
+      "bytes": 890402
+    },
+    {
+      "file": "downloads/research/Cross_Period/Annual_Spatial_Effects_Without_Band.csv.gz",
+      "sha256": "ea25ca7f97ea126b84eba52f601c5a5277b9ca6996af663ecb9286fdc0a78188",
+      "bytes": 888962
+    },
+    {
+      "file": "downloads/research/Urban_Rural/All_Conditional_Band_Gaps_With_CI.csv.gz",
+      "sha256": "f6fb80223b2f5a6c8532eb501362c464697c0ddb6ce86984f9ab8ef3fdb3da82",
+      "bytes": 619591
+    },
+    {
+      "file": "downloads/research/Urban_Rural/Annual_Band_Only_R2.csv.gz",
+      "sha256": "f1fa53533a682757825cb3f3f0740a635c452e1722b22da92219f1e22aaac2dd",
+      "bytes": 3467
+    },
+    {
+      "file": "downloads/research/Urban_Rural/Annual_R2_OLS_Confidence_Bands.csv.gz",
+      "sha256": "f651a570b07cb59488ac3d15b757826201cb1449aaf7634a21e2651492cb4ff6",
+      "bytes": 2876
+    },
+    {
+      "file": "downloads/research/Urban_Rural/Table_02_Urban_Parametric_Coefficients.csv.gz",
+      "sha256": "2621e947bcecce2e69d0589f0a009937c8445c52d9d80ee3be16394f547be09c",
+      "bytes": 616
+    },
+    {
+      "file": "downloads/research/Urban_Rural/Table_03_Rural_Parametric_Coefficients.csv.gz",
+      "sha256": "c3abb89d6b694c8f1df11ce19e2cda4c285fe42fe1f99c295500d58a11d67fb9",
+      "bytes": 623
+    },
+    {
+      "file": "downloads/research/Urban_Rural/Table_04_Combined_Model_Fit.csv.gz",
+      "sha256": "8000c72e369639d20559dd338359724a3f4167c2853987a7e4be2320f76dbdc8",
+      "bytes": 502
+    },
+    {
+      "file": "downloads/research/Urban_Rural/Table_05_R2_Trend_Tests.csv.gz",
+      "sha256": "91d3941603fce775f80c62884c7bb8718f68decb3a6a2d26390472e80a93f402",
+      "bytes": 524
+    },
+    {
+      "file": "downloads/research/Urban_Rural/Table_06_HG_Key_Points.csv.gz",
+      "sha256": "8f7516b0d738378eff6ab1cb87aab00314685be1bdf1585e4c3bfe8278279198",
+      "bytes": 559
+    },
+    {
+      "file": "downloads/research/Urban_Rural/Table_07_HA_HG_Key_Points.csv.gz",
+      "sha256": "0123f1875e8db8b09b907539b8edee63508b42c9f55dbc7b98598bd54299657f",
+      "bytes": 651
+    },
+    {
+      "file": "downloads/research/Urban_Rural/Urban_Rural_Results.pdf",
+      "sha256": "339bfef0f69bfaaa1108b2d98ddc1707d9b992a65f8d2ff6b684c4fe54768bb1",
+      "bytes": 312444
+    },
+    {
+      "file": "downloads/research/Distributions/distribution_summary.csv.gz",
+      "sha256": "d0a03bf1c64db38bc9cb76ff0c64031466ea35560ef48d73eacb14d1b7496f9e",
+      "bytes": 367
+    },
+    {
+      "file": "downloads/research/Distributions/distribution_by_band.csv.gz",
+      "sha256": "1af777046f92eaf727ace292d428d40bc76f78fcabc60615c8ce71b94a207dba",
+      "bytes": 991
+    },
+    {
+      "file": "downloads/research/Distributions/annual_lower_price_trim_audit.csv.gz",
+      "sha256": "3f9d121301d403720fb00df2a66ee6c7d83577d9f5813a68904d30e460048610",
+      "bytes": 204
+    },
+    {
+      "file": "assets/research/distribution_1991_actual.png",
+      "sha256": "d54c79111f71e12fceeeaa234317e9fe223342b256c06dccddc6def3c3f09684",
+      "bytes": 57791
+    },
+    {
+      "file": "assets/research/distribution_1991_implied.png",
+      "sha256": "e8401fcf49bfe397ce18820e69476096ea91bcd6855f8d9b60c2f84741f3f1a7",
+      "bytes": 48158
+    },
+    {
+      "file": "assets/research/distribution_1995_actual.png",
+      "sha256": "efff2e3eb422dbf3047fbae4263ed7361cb5dafa96b7badaf4404b5456149a9e",
+      "bytes": 94395
+    },
+    {
+      "file": "assets/research/distribution_1995_implied.png",
+      "sha256": "833c788a46d3fb678465fafff695028035757b5c38afbe105e97debef9bad9fe",
+      "bytes": 58354
+    },
+    {
+      "file": "assets/research/distribution_2005_actual.png",
+      "sha256": "d68704ccf7843851209eb7b1f289ccc9e74719f24675a3623bdbe4d09ff4d06b",
+      "bytes": 92040
+    },
+    {
+      "file": "assets/research/distribution_2005_implied.png",
+      "sha256": "b881bbb6f292dd5ae50925cea4b7195197241d3df275b19c6028b91f091e62a5",
+      "bytes": 58390
+    },
+    {
+      "file": "assets/research/distribution_2015_actual.png",
+      "sha256": "a10da4de712a55de13a4503accda39a65176631457a380942ccccdaa700ad23a",
+      "bytes": 89235
+    },
+    {
+      "file": "assets/research/distribution_2015_implied.png",
+      "sha256": "c4a8566c7b069e4fb4a0d8c8652ed74056d82e8d706c5d879073dec415afee9d",
+      "bytes": 58290
+    },
+    {
+      "file": "assets/research/distribution_2025_actual.png",
+      "sha256": "1aca4e2031577b86807a5b5177ba99f1172248bfb81ae1b128a5c1494a077501",
+      "bytes": 90186
+    },
+    {
+      "file": "assets/research/distribution_2025_implied.png",
+      "sha256": "21e30fc8a35dd3fb40773dcb50ad1ff164c7bf3e7b951c748d863f7f9638826a",
+      "bytes": 58429
+    },
+    {
+      "file": "assets/research/Spatial_Without_Band_Four_Years.png",
+      "sha256": "d73b681e1d607183c4260b8ff63b802bbd336733f08d2b18e62eeb0083338efc",
+      "bytes": 180223
+    },
+    {
+      "file": "downloads/research/National/Spatial_Without_Band_Four_Years.png",
+      "sha256": "d73b681e1d607183c4260b8ff63b802bbd336733f08d2b18e62eeb0083338efc",
+      "bytes": 180223
+    },
+    {
+      "file": "assets/research/Spatial_With_Band_Four_Years.png",
+      "sha256": "b66ed17acb364395872d0d2d76da14726131b3b47cbae004b53febb039886a71",
+      "bytes": 192964
+    },
+    {
+      "file": "downloads/research/National/Spatial_With_Band_Four_Years.png",
+      "sha256": "b66ed17acb364395872d0d2d76da14726131b3b47cbae004b53febb039886a71",
+      "bytes": 192964
+    },
+    {
+      "file": "assets/research/Figure8_Within_Band_Residual_Dispersion.png",
+      "sha256": "ea2f7c9600a310340eebc720a32f982f764f0a598cec289ce0415b34fbb36ca8",
+      "bytes": 58199
+    },
+    {
+      "file": "downloads/research/National/Figure8_Within_Band_Residual_Dispersion.pdf",
+      "sha256": "c65fc06a433584b376514c86669a2c9bb5db608fb9d1ac17ba3dd24679dd8c25",
+      "bytes": 5851
+    }
+  ]
+}
