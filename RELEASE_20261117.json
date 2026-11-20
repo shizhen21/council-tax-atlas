@@ -1,0 +1,95 @@
+{
+  "edition": "20261117-3",
+  "main_pages": [
+    "index.html",
+    "research.html",
+    "public.html"
+  ],
+  "public_reform_anchor": "public.html#reformExplore",
+  "original_preserved": "/root/code/SW-project/SW_Council Tax/05_Latest_Results_and_Overleaf/New_Run_Website_Three_Pages_20261113/council-tax-atlas",
+  "models_estimated_for_redesign": false,
+  "published": false,
+  "groups": 9,
+  "specifications": 18,
+  "author_order_note": "Both authors contributed equally to this work. The name order is random (AEA Randomisation Key: u7zgIlv5s-ok).",
+  "reference_requested": "https://wfhmap.com/",
+  "status": "PASS",
+  "browser_checks_passed": true,
+  "payload_checks_passed": true,
+  "working_paper_version": "13 November 2026",
+  "latest_supplement": "Urban England excluding London, 15 November 2026",
+  "wording_source_check": {
+    "headline": "A frozen tax base in a changing housing market",
+    "headline_source": "13 November website/scripts/layout_before_reform_reorganisation.txt, .hero .eyebrow",
+    "intro_source": "13 November working-paper abstract, first sentence",
+    "public_heading_source": "13 November retained original layout, .hero h1",
+    "regional_text_source": "15 November README_RESULTS.md, Scope and principal findings",
+    "new_promotional_headlines_removed": true,
+    "layouts": [
+      {
+        "page": "index.html",
+        "viewport": 320,
+        "width": 320,
+        "scrollWidth": 320,
+        "fatal": ""
+      },
+      {
+        "page": "research.html",
+        "viewport": 320,
+        "width": 320,
+        "scrollWidth": 320,
+        "fatal": ""
+      },
+      {
+        "page": "public.html",
+        "viewport": 320,
+        "width": 320,
+        "scrollWidth": 320,
+        "fatal": ""
+      },
+      {
+        "page": "index.html",
+        "viewport": 390,
+        "width": 390,
+        "scrollWidth": 390,
+        "fatal": ""
+      },
+      {
+        "page": "research.html",
+        "viewport": 390,
+        "width": 390,
+        "scrollWidth": 390,
+        "fatal": ""
+      },
+      {
+        "page": "public.html",
+        "viewport": 390,
+        "width": 390,
+        "scrollWidth": 390,
+        "fatal": ""
+      },
+      {
+        "page": "index.html",
+        "viewport": 1440,
+        "width": 1440,
+        "scrollWidth": 1425,
+        "fatal": ""
+      },
+      {
+        "page": "research.html",
+        "viewport": 1440,
+        "width": 1440,
+        "scrollWidth": 1425,
+        "fatal": ""
+      },
+      {
+        "page": "public.html",
+        "viewport": 1440,
+        "width": 1440,
+        "scrollWidth": 1425,
+        "fatal": ""
+      }
+    ],
+    "passed": true
+  }
+}

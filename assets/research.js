@@ -56,9 +56,9 @@ const ResearchCharts = (() => {
       series=[{label:'Observed England',points:data.r2.National},...Object.entries(data.fixed_region).filter(([k])=>!k.toLowerCase().includes('observed')).map(([k,v])=>({label:k,points:v}))];
       el('r2Note').textContent='Fixed regional weights isolate changes in within- and between-region price distributions from changes in the regional composition of transactions. This is a descriptive composition check.';
     }else{
-      const keys=mode==='urban'?['National','Urban','Rural']:mode==='regional'?['National','London','Non_London']:['National','EPC_Original','Cross_Period'];
+      const keys=mode==='londonUrban'?['National','London','Urban_Non_London']:mode==='urban'?['National','Urban','Rural']:mode==='regional'?['National','London','Non_London']:['National','EPC_Original','Cross_Period'];
       series=keys.map(key=>({label:group(key).label,points:data.r2[key]}));
-      el('r2Note').textContent=mode==='urban'?'Urban and rural status is fixed using the official 2021 LSOA classification. The two samples together account for all 22,680,611 main-model transactions.':mode==='regional'?'London and the rest of England partition the main sample. These are separate within-sample band-only regressions.':'The EPC common sample starts in 2013. Repeat sales form a restricted-sample hedonic check, not a first-difference estimator. Sample composition differs across these series.';
+      el('r2Note').textContent=mode==='londonUrban'?'London and urban England excluding London are disjoint regional samples. England contains both, plus rural transactions. Direct long-period trend difference: −0.125 pp/year (Newey–West SE 0.070; p = 0.086).':mode==='urban'?'Urban and rural status is fixed using the official 2021 LSOA classification. The two samples together account for all 22,680,611 main-model transactions.':mode==='regional'?'London and the rest of England partition the main sample. These are separate within-sample band-only regressions.':'The EPC common sample starts in 2013. Repeat sales form a restricted-sample hedonic check, not a first-difference estimator. Sample composition differs across these series.';
     }
     chart('r2Chart',series,{ylabel:'Band-only R² (%)',year,format:v=>v.toFixed(1)});legend('r2Legend',series);
     el('r2Snapshot').innerHTML=series.map(s=>{const r=s.points.find(r=>r[0]===year);return stat(r?r[1].toFixed(2)+'%':'—',s.label,r?'Year '+year:'No observations in '+year);}).join('');
@@ -66,17 +66,19 @@ const ResearchCharts = (() => {
   function gaps(){
     const key=el('gapSample').value,contrast=el('gapContrast').value;
     const points=data.gaps[key][contrast],series=[{label:group(key).label,points,ci:true}];
-    el('gapEngland').disabled=key==='National';
+    el('gapEngland').disabled=key==='National';el('gapLondon').disabled=key==='London';
     if(el('gapEngland').checked&&key!=='National')series.push({label:'England',points:data.gaps.National[contrast],ci:true});
+    if(el('gapLondon').checked&&key!=='London')series.push({label:'London',points:data.gaps.London[contrast],ci:true});
     chart('gapChart',series,{ylabel:contrast+' conditional log-price gap',format:v=>v.toFixed(2),zero:true});legend('gapLegend',series);
     const a=points[0],b=points[points.length-1];
     el('gapFacts').innerHTML=stat(a[1].toFixed(3),'Mid-'+Math.floor(a[0])+' · '+contrast+' gap')+stat(b[1].toFixed(3),'Mid-'+Math.floor(b[0])+' · '+contrast+' gap')+stat((100*Math.expm1(b[1])).toFixed(1)+'%','Implied conditional price difference in mid-2025')+stat('['+b[2].toFixed(3)+', '+b[3].toFixed(3)+']','Mid-2025 pointwise 95% interval · log points');
   }
   function context(){
-    const key=el('contextSample').value,indices=data.indices[key].Without_Band;
-    const name=Object.keys(indices)[0],points=indices[name];
+    const key=el('contextSample').value,spec=el('indexSpecification').value,indices=data.indices[key][spec];
+    const previous=el('indexBand').value,names=Object.keys(indices);el('indexBand').innerHTML=names.map(b=>`<option>${b}</option>`).join('');el('indexBand').value=names.includes(previous)?previous:names[0];el('indexBand').disabled=spec==='Without_Band';
+    const name=el('indexBand').value,points=indices[name];
     chart('indexChart',[{label:group(key).label,points,ci:true}],{height:300,ylabel:'Fitted time index',format:v=>v.toFixed(1)});
-    el('indexNote').textContent=`${group(key).label}: without-band model time component; mid-${Math.floor(points[0][0])} = 1. Shading is the pointwise 95% interval. This is not the growth of the unadjusted mean transaction price.`;
+    el('indexNote').textContent=`${group(key).label}: ${spec==='With_Band'?'with-band model, Band '+name:'without-band model'} time component; mid-${Math.floor(points[0][0])} = 1. Shading is the pointwise 95% interval. This is not the growth of the unadjusted mean transaction price.`;
     const series=Object.entries(data.dispersion[key]).sort(([a],[b])=>a.localeCompare(b)).map(([band,points])=>({label:'Band '+band,points}));
     chart('dispersionChart',series,{height:300,ylabel:'Residual standard deviation · log points',format:v=>v.toFixed(2)});legend('dispersionLegend',series);
   }
@@ -96,14 +98,14 @@ const ResearchCharts = (() => {
   async function start(){
     try{
       if(window.COUNCIL_RESEARCH_PREVIEW)data=window.COUNCIL_RESEARCH_PREVIEW;
-      else{const response=await fetch('data/research.json?v=20261113-2');if(!response.ok)throw new Error('Result data could not be loaded');data=await response.json();}
-      el('gapSample').innerHTML=data.groups.map(g=>`<option value="${g.key}" ${g.key==='Urban'?'selected':''}>${esc(g.label)}</option>`).join('');
+      else{const response=await fetch('data/research.json?v=20261117-3');if(!response.ok)throw new Error('Result data could not be loaded');data=await response.json();}
+      el('gapSample').innerHTML=data.groups.map(g=>`<option value="${g.key}" ${g.key==='Urban_Non_London'?'selected':''}>${esc(g.label)}</option>`).join('');
       el('gapContrast').innerHTML=Object.keys(data.gaps.National).map(k=>`<option ${k==='H–G'?'selected':''}>${esc(k)}</option>`).join('');
       el('contextSample').innerHTML=data.groups.filter(g=>data.indices[g.key]).map(g=>`<option value="${g.key}">${esc(g.label)}</option>`).join('');
-      for(const [id,fn] of [['distributionYear',distributions],['r2Comparison',r2],['gapSample',gaps],['gapContrast',gaps],['gapEngland',gaps],['contextSample',context]])el(id).addEventListener('change',fn);
+      for(const [id,fn] of [['distributionYear',distributions],['r2Comparison',r2],['gapSample',gaps],['gapContrast',gaps],['gapEngland',gaps],['gapLondon',gaps],['indexSpecification',context],['indexBand',context],['contextSample',context]])el(id).addEventListener('change',fn);
       el('r2Year').addEventListener('input',r2);
       distributions();r2();gaps();context();downloads();
-      el('dataStatus').textContent='Current saved results loaded · eight groups, sixteen model specifications · tax and reform reconciliation passed.';
+      el('dataStatus').textContent='Explore nine model groups and eighteen fitted specifications. Data and methods are available below.';
       document.documentElement.dataset.researchReady='true';
       window.CouncilResearch={chart,data};
     }catch(error){el('dataStatus').textContent='Interactive data could not load. Please serve the full website over HTTP, or open the standalone preview. Tables and downloads below remain available.';el('dataStatus').classList.add('research-error');console.error(error);document.documentElement.dataset.researchError=String(error);}

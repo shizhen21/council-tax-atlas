@@ -72,11 +72,11 @@ function renderBaselineLocal(){if(!$('baselineLad'))return;
 
 function explorerNeighbourhoods(){
  const options=$('explorerLevel').value==='lsoa'?M.areas.flatMap((a,i)=>(!explorerLad||a.lad===explorerLad)?[[i,a]]:[]).sort((a,b)=>a[1].name.localeCompare(b[1].name)):[];
- $('explorerLsoa').innerHTML='<option value="">Choose a neighbourhood (or view the whole area)</option>'+options.map(([i,a])=>`<option value="${i}">${esc(a.name)} · ${a.code}</option>`).join('');$('explorerLsoa').disabled=$('explorerLevel').value!=='lsoa';explorerLsoa='';
+ $('explorerLsoa').innerHTML='<option value="">Choose a neighbourhood (or view the whole area)</option>'+options.map(([i,a])=>`<option value="${i}">${esc(a.name)} · ${a.code}</option>`).join('');$('explorerLsoa').disabled=$('explorerLevel').value!=='lsoa';explorerLsoa='';$('explorerLsoa').closest('.field').hidden=$('explorerLevel').value!=='lsoa';
 }
 async function renderLocalExplorer(){if(!$('localTitle'))return;
  const yy=explorerYear,li=explorerLsoa===''?null:+explorerLsoa,lad=li!==null?M.areas[li].lad:explorerLad,token=++selectionVersion,place=li!==null?M.areas[li].name:lad?M.lads[lad].name:'England';
- setText('localTitle',place+(li!==null?' · LSOA Explorer':' · LAD Explorer'));setText('localBandDPlace',lad?M.lads[lad].name:li!==null?'No unique LAD link':'England');setText('trendStatus','Loading local series…');
+ setText('localTitle',place+' · local tax burdens');setText('localBandDPlace',lad?M.lads[lad].name:li!==null?'No unique LAD link':'England');setText('trendStatus','Loading local series…');
  let series,counts;if(li!==null){const bucket=li%64;if(!seriesCache.has(bucket))seriesCache.set(bucket,get('series/'+bucket+'.json'));const [all,bb]=await Promise.all([seriesCache.get(bucket),get('bands/'+yy+'.json')]);if(token!==selectionVersion)return;series=all[li]||Array(31).fill(null);counts=bb[li]||Array(8).fill(0);}
  else if(lad){series=Array.from({length:31},(_,j)=>L.history[1995+j]?.[lad]??null);counts=BANDS.map(b=>L.bands[yy]?.[lad]?.[b]??0);}
  else{series=Object.values(M.annual).map(a=>[a.n,a.total_tax/a.n,a.mean_etr_pct]);counts=BANDS.map(b=>M.trade[yy]?.[b]??0);}
@@ -88,7 +88,7 @@ async function renderLocalExplorer(){if(!$('localTitle'))return;
  const stock=source.value==='stock',total=counts.reduce((a,b)=>a+b,0),values=stock?BANDS.map(b=>(lad?M.stock[lad]:M.stockNational)?.[b]??null):counts.map(n=>total?100*n/total:null),hi=Math.max(1,...values.filter(finite));
  $('localBandBars').innerHTML=BANDS.map((b,i)=>`<div class="band-column"><b>${finite(values[i])?fmt(values[i],1)+'%':'—'}</b><div class="bar" style="height:${finite(values[i])?values[i]/hi*115:0}px"></div><span>${b}</span></div>`).join('');setText('localBandTitle',place+' · band distribution');setText('localBandNote',stock?'Official September-2026 stock shares, a fixed reference. This is not a historical stock series.':'Selected '+yy+' transactions in the chosen area. Change the observation year to follow the historical band composition. Repeated sales count separately; these shares are not stock shares.');
  lineChart('localBandDChart',Array.from({length:31},(_,j)=>[1995+j,li!==null&&!lad?null:M.bandD[lad||'England']?.[1995+j]??null]),{unit:'£',selectedYear:yy});lineChart('billTrend',series.map((v,j)=>[1995+j,v?.[1]??null]),{unit:'£',selectedYear:yy});lineChart('etrTrend',series.map((v,j)=>[1995+j,v?.[2]??null]),{unit:'%',selectedYear:yy});setText('trendStatus','1995–2025 · observation year '+yy);
- lineChart('historicalNational',Object.values(M.annual).map(r=>[r.year,r.national_suits]),{unit:'Suits',selectedYear:yy});lineChart('historicalWithin',Object.values(M.annual).map(r=>[r.year,r.within_authority_suits]),{unit:'Suits',selectedYear:yy});
+ lineChart('historicalNational',Object.values(M.annual).map(r=>[r.year,r.national_suits]),{unit:'Suits',selectedYear:yy});lineChart('historicalWithin',Object.values(M.annual).map(r=>[r.year,r.within_authority_suits]),{unit:'Suits',selectedYear:yy});document.dispatchEvent(new Event('atlas-area-change'));
 }
 function useMapInExplorer(){const lad=selectedLad();explorerLad=lad||'';$('explorerLad').value=explorerLad;explorerNeighbourhoods();if(selection?.type==='lsoa'){$('explorerLevel').value='lsoa';explorerNeighbourhoods();explorerLsoa=String(selection.index);$('explorerLsoa').value=explorerLsoa;}explorerYear=year;$('explorerYear').value=year;renderLocalExplorer().catch(showError);}
 function renderMultipliers(){if(!$('multiplierChart'))return;
@@ -107,16 +107,21 @@ function renderTransitions(){if(!$('transitionChart'))return;
 }
 function renderComparison(){if(!$('compareYear'))return;
  renderMultipliers();renderTransitions();
+ if($('parameterArea')&&$('localPolicyCard')){
  const local=$('parameterArea').value,localYear=$('compareYear').value;$('localPolicyCard').hidden=!local;
  if(local){setText('localPolicyTitle',M.lads[local].name+' · reform comparison · '+localYear);$('localPolicyTable').innerHTML='<thead><tr><th>Reform</th><th>Mean bill change</th><th>Mean ETR change</th><th>Pay less</th><th>Current Suits</th><th>Reform Suits</th></tr></thead><tbody>'+POLICIES.map((name,j)=>{const k=j+1,a=M.ladPolicy[localYear+'_'+k]?.[local],b=M.suits[localYear+'_'+k]?.[local];return a?`<tr><td>${k}. ${name}</td><td>${gbp(a.mean_bill_after-a.mean_bill_before,2)}</td><td>${signed(a.mean_etr_after-a.mean_etr_before,3)} pp</td><td>${fmt(a.share_less*100,2)}%</td><td>${fmt(b?.current_suits,4)}</td><td>${fmt(b?.reform_suits,4)}</td></tr>`:'';}).join('')+'</tbody>';}
 
 
+
+ }
+ if(!$('nationalSuits'))return;
  const yy=$('compareYear').value,reformId=+$('comparePolicy').value,all=M.summary[yy];const draw=(id,field,base)=>{const vals=[['Current system',all['1'][base]],...Object.entries(all).map(([k,v])=>[k+'. '+POLICIES[k-1],v[field]])];$(id).innerHTML=vals.map(([name,value])=>`<div class="suits-row"><span>${name}</span><div class="suits-track"><span class="suits-fill" style="width:${Math.min(100,Math.abs(value)/.35*100)}%"></span></div><b>${fmt(value,4)}</b></div>`).join('')+'<p class="note">Bars show distance from proportionality (0); common scale 0–0.35.</p>';};draw('nationalSuits','reform_national_suits','current_national_suits');draw('localSuits','reform_within_suits','current_within_suits');
  $('policyTable').innerHTML='<thead><tr><th>Reform</th><th>Pay less</th><th>Unchanged</th><th>Pay more</th><th>Median bill change</th><th>Sample revenue change</th></tr></thead><tbody>'+Object.entries(all).map(([k,v])=>`<tr><td>${k}. ${POLICIES[k-1]}</td><td>${fmt(v.share_paying_less*100,2)}%</td><td>${fmt(v.share_unchanged*100,2)}%</td><td>${fmt(v.share_paying_more*100,2)}%</td><td>${gbp(v.median_bill_change,2)}</td><td>${gbp(Math.abs(v.reform_revenue-v.current_revenue)<.01?0:v.reform_revenue-v.current_revenue)}</td></tr>`).join('')+'</tbody>';
  const metric=$('neighbourMetric').value;for(const [group,id]of [['income_decile','incomeChart'],['deprivation_decile','deprivationChart']]){const rr=M.neighbourhood.filter(r=>r.year==yy&&r.policy==reformId&&r.grouping===group).sort((a,b)=>a.decile-b.decile);lineChart(id,rr.map(r=>[r.decile,r[metric]]),{unit:metric==='mean_bill_change'?'£':'pp',zero:true});$(id).setAttribute('aria-label',`Option ${reformId}, ${yy}, ${group}`);$(id).insertAdjacentHTML('beforeend',`<small class="note">Option ${reformId} · ${POLICIES[reformId-1]} · ${yy}</small>`);}
 }
 function metrics(){return mode==='current'?[['etr','Mean effective tax rate (%)'],['bill','Mean annual bill (£)'],['n','Retained transactions']]:[['deltaBill','Mean annual bill change (£)'],['deltaEtr','Mean ETR change (pp)'],['less','Share paying less (%)'],['more','Share paying more (%)'],['afterBill','Mean annual bill after reform (£)'],['afterEtr','Mean effective rate after reform (%)']];}
 function populateControls(){
+ if($("mapView"))$("mapView").value=mode;
  $('year').innerHTML=Array.from({length:mode==='current'?31:4},(_,i)=>(mode==='current'?1995:2022)+i).map(y=>`<option value="${y}"${y===year?' selected':''}>${y}</option>`).join('');$('yearRange').min=mode==='current'?1995:2022;$('yearRange').value=year;$('policy').value=policy;$('metric').innerHTML=metrics().map(([v,n])=>`<option value="${v}"${v===metric?' selected':''}>${n}</option>`).join('');document.querySelector('.policy-field').hidden=mode!=='policy';setText('timelineYear',year);
 }
 function valueAt(i){const h=history[i],p=changes?.[i];if(mode==='current')return h?(metric==='n'?h[0]:metric==='bill'?h[1]:h[2]):null;return p?(metric==='afterBill'?h[1]+p[0]:metric==='afterEtr'?h[2]+p[1]:metric==='deltaBill'?p[0]:metric==='deltaEtr'?p[1]:100*p[metric==='less'?2:3]):null;}
@@ -146,6 +151,7 @@ async function exportData(){const csvrow=a=>a.map(v=>'"'+String(v??'').replaceAl
 /* Each page initializes only the controls that it contains. */
 function on(id,event,fn){const el=$(id);if(el)el.addEventListener(event,fn);}
 function bind(){
+  on('mapView','change',()=>switchMapView($('mapView').value));
   on('baselineLad','change',renderBaselineLocal);
   on('baselineYear','change',renderContext);
   on('bandSource','change',renderContext);
@@ -157,7 +163,7 @@ function bind(){
   on('useMapArea','click',useMapInExplorer);
   on('openExplorerFromMap','click',e=>{
     if($('explorerLad'))useMapInExplorer();
-    else{e.preventDefault();location.href='regressivity.html?year='+year+(selectedLad()?'&area='+encodeURIComponent(selectedLad()):'')+'#localDetails';}
+    else{e.preventDefault();location.href='public.html?year='+year+(selectedLad()?'&area='+encodeURIComponent(selectedLad()):'')+'#localDetails';}
   });
   on('useExplorerArea','click',()=>{$('parameterArea').value=selectedLad()||'';renderComparison();});
   on('multiplierVariant','change',renderMultipliers);
@@ -186,16 +192,18 @@ async function main(){
   const options='<option value="">England overview</option>'+Object.entries(M.lads).sort((a,b)=>a[1].name.localeCompare(b[1].name)).map(([c,a])=>`<option value="${c}">${esc(a.name)}</option>`).join('');
   const years=Array.from({length:31},(_,j)=>`<option${j===30?' selected':''}>${1995+j}</option>`).join('');
   if($('baselineLad')){
-    $('baselineLad').innerHTML=options;$('baselineLad').value='E09000033';$('baselineYear').innerHTML=years;
+    $('baselineLad').innerHTML=options;$('baselineLad').value='';$('baselineYear').innerHTML=years;
     const thresholds=['≤40,000','40,001–52,000','52,001–68,000','68,001–88,000','88,001–120,000','120,001–160,000','160,001–320,000','>320,000'];
     $('statutoryTable').innerHTML=BANDS.map((b,i)=>`<tr><td>${b}</td><td>${thresholds[i]}</td><td>${[6,7,8,9,11,13,15,18][i]}/9</td></tr>`).join('');
     renderContext();
   }
   if($('compareYear')){
-    $('parameterArea').innerHTML=options.replace('England overview','England · summary of local schedules');
-    $('comparePolicy').innerHTML=POLICIES.map((p,i)=>`<option value="${i+1}"${i===5?' selected':''}>${i+1}. ${p}</option>`).join('');
+    if($('parameterArea'))$('parameterArea').innerHTML=options.replace('England overview','England · summary of local schedules');
+    if($('comparePolicy'))$('comparePolicy').innerHTML=POLICIES.map((p,i)=>`<option value="${i+1}"${i===5?' selected':''}>${i+1}. ${p}</option>`).join('');
     renderComparison();
   }
+  lineChart('historicalNational',Object.values(M.annual).map(r=>[r.year,r.national_suits]),{unit:'Suits',selectedYear:2025});
+  lineChart('historicalWithin',Object.values(M.annual).map(r=>[r.year,r.within_authority_suits]),{unit:'Suits',selectedYear:2025});
   if($('recentEtrChart')){
     const annual=Object.values(M.annual).filter(r=>r.year>=2021).sort((a,b)=>a.year-b.year);
     lineChart('recentEtrChart',annual.map(r=>[r.year,r.mean_etr_pct]),{unit:'%',selectedYear:2025});
@@ -222,3 +230,16 @@ main().catch(showError);
 
 document.querySelectorAll('.appendix-nav a').forEach(a=>a.addEventListener('click',()=>{const target=document.getElementById(a.hash.slice(1));if(target?.tagName==='DETAILS')target.open=true;}));
 document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',()=>{const target=document.getElementById(a.hash.slice(1));if(target){let p=target;while(p){if(p.tagName==='DETAILS')p.open=true;p=p.parentElement;}requestAnimationFrame(()=>target.scrollIntoView());}}));
+
+/* One map, with observed and reform views; all numerical payloads are unchanged. */
+const publicMapYears={current:2025,policy:2025};
+async function switchMapView(next){
+ if(!$('mapView'))return;
+ publicMapYears[mode]=year;
+ mode=next==='policy'?'policy':'current';
+ year=publicMapYears[mode];
+ metric=mode==='policy'?'deltaBill':'etr';
+ $('mapView').value=mode;
+ populateControls();
+ await updateData();
+}

@@ -1,0 +1,41 @@
+{
+  "edition": "Website 1120",
+  "date": "2026-11-20",
+  "pages": [
+    "index.html",
+    "public.html",
+    "public-track.html",
+    "public-reform.html",
+    "research.html"
+  ],
+  "publication": "manual; this edition has not been uploaded or published",
+  "previous_edition_preserved": "New_Run_Website_Audiences_20261117",
+  "years": {
+    "track": [
+      1995,
+      2025
+    ],
+    "public_band_diagnostics": [
+      1995,
+      2025
+    ],
+    "saved_reforms": [
+      2022,
+      2025
+    ]
+  },
+  "prepared_sample_rows": 22680611,
+  "tracker_rows_after_saved_exclusions": 22589503,
+  "price_fallback": "same year and band: LSOA >=5, then MSOA >=5, otherwise missing",
+  "tracker_charge_rule": "calendar year: 1/4 prior fiscal year + 3/4 current fiscal year; unresolved local routes remain missing",
+  "tracker_comparison": "same prepared sample and calendar rule; matched available years",
+  "band_movement_diagnostic": "retrospective within-LAD price ranking to fixed 2026 band shares; not a legal misclassification rate",
+  "reform_and_research_payloads": "original scientific data retained unchanged",
+  "collection": {
+    "static_default": false,
+    "explicit_consent_required": true,
+    "demo_histories_submitted": false,
+    "optional_receiver": "preview.py --enable-collection --database /private/path/outside/site.sqlite"
+  },
+  "copyright_note": "Both authors contributed equally to this work. The name order is random (AEA Randomisation Key: u7zgIlv5s-ok)."
+}

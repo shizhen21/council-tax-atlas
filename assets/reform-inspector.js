@@ -1,11 +1,4 @@
-/* Query saved reform outcomes by area and ORIGINAL band. */
 let reformQueryArea=null,reformQueryToken=0;
-function reformQueryChoose(type,code,index){reformQueryArea={type,code,index};$('reformAreaSearch').value=type==='lad'?M.lads[code].name:M.areas[index].name+' · '+code;$('reformAreaResults').hidden=true;renderReformBandQuery().catch(showError);}
-function reformQuerySearch(){
- const type=$('reformQueryLevel').value,q=$('reformAreaSearch').value.trim().toLowerCase(),filter=$('reformQueryLad').value,el=$('reformAreaResults');el.replaceChildren();if(q.length<2){el.hidden=true;return;}
- const rows=type==='lad'?Object.entries(M.lads).filter(([c,a])=>(c+' '+a.name).toLowerCase().includes(q)).slice(0,12).map(([code,a])=>({code,name:a.name,type:'lad'})):M.areas.flatMap((a,index)=>(!filter||a.lad===filter)&&(a.code+' '+a.name).toLowerCase().includes(q)?[{code:a.code,name:a.name,index,type:'lsoa'}]:[]).slice(0,15);
- for(const r of rows){const b=document.createElement('button');b.type='button';b.innerHTML=esc(r.name)+'<small>'+esc(r.code)+' · '+(r.type==='lad'?'Local authority':'Neighbourhood')+'</small>';b.onclick=()=>reformQueryChoose(r.type,r.code,r.index);el.appendChild(b);}if(!rows.length)el.innerHTML='<p class="note" style="padding:12px">No matching area. Try a name or full LSOA code; check the optional LAD filter.</p>';el.hidden=false;
-}
 async function renderReformBandQuery(){
  const token=++reformQueryToken,yy=+$('reformQueryYear').value,k=+$('reformQueryPolicy').value,band=$('reformQueryBand').value,a=reformQueryArea,code=a?.code||'England',name=a?(a.type==='lad'?M.lads[a.code].name:M.areas[a.index].name):'England';
  setText('reformQueryTitle',name+' · '+yy+' · Option '+k);setText('reformBandAnswer','Loading band-level results…');
@@ -15,15 +8,29 @@ async function renderReformBandQuery(){
  $('reformBandTable').innerHTML='<thead><tr><th>Original band</th><th>Bill before (£)</th><th>Bill after (£)</th><th>Bill change (£)</th><th>ETR before (%)</th><th>ETR after (%)</th><th>ETR change (pp)</th><th>Pay less (%)</th><th>Pay more (%)</th></tr></thead><tbody>'+BANDS.map(b=>{const r=rows[b];return '<tr'+(b===band?' class="selected-band"':'')+'><th scope="row">'+b+'</th>'+(r?'<td>'+fmt(r[1],2)+'</td><td>'+fmt(r[2],2)+'</td><td>'+signed(r[2]-r[1],2)+'</td><td>'+fmt(r[3],3)+'</td><td>'+fmt(r[4],3)+'</td><td>'+signed(r[4]-r[3],3)+'</td><td>'+fmt(r[6]*100,1)+'</td><td>'+fmt(r[5]*100,1)+'</td>':'<td colspan="8">No observations</td>')+'</tr>';}).join('')+'</tbody>';
  setText('reformBandSample',BANDS.map(b=>'Band '+b+': '+fmt(rows[b]?.[0]||0)).join(' · '));setText('reformBandQueryNote',(a?.type==='lsoa'?'Ward names are ONS 2026 best-fit reference labels; boundaries can differ from the LSOA. ':'')+'Option '+k+' · '+POLICIES[k-1]+'. Groups use ORIGINAL A–H bands before reform. In Options 4 and 6, properties in the same original band can enter different new bands and face different bills. Effective rates average each annual bill divided by its observed sale price; they are not computed from an average property price. Paying more/less uses the saved £0.01 tolerance.');
 }
+/* The reform query shares the area chosen in the local-tax tools above. */
+function syncReformArea(){
+ const index=explorerLsoa===''?null:+explorerLsoa;
+ reformQueryArea=index!==null?{type:'lsoa',code:M.areas[index].code,index}:explorerLad?{type:'lad',code:explorerLad}:null;
+ if($('parameterArea')){$('parameterArea').value=index!==null?(M.areas[index].lad||''):explorerLad;renderComparison();}
+ renderReformBandQuery().catch(showError);
+}
 function initReformBandQuery(){
  if(!$('reformQueryYear'))return;
  $('reformQueryPolicy').innerHTML=POLICIES.map((n,i)=>'<option value="'+(i+1)+'"'+(i===5?' selected':'')+'>'+(i+1)+'. '+esc(n)+'</option>').join('');
- $('reformQueryLad').innerHTML='<option value="">All local authorities</option>'+Object.entries(M.lads).sort((a,b)=>a[1].name.localeCompare(b[1].name)).map(([c,a])=>'<option value="'+c+'">'+esc(a.name)+'</option>').join('');
  for(const id of ['reformQueryYear','reformQueryPolicy','reformQueryBand'])$(id).onchange=()=>renderReformBandQuery().catch(showError);
- $('reformQueryLevel').onchange=()=>{reformQueryArea=null;$('reformAreaSearch').value='';$('reformAreaResults').hidden=true;$('reformQueryLadField').hidden=$('reformQueryLevel').value!=='lsoa';$('reformAreaSearch').placeholder=$('reformQueryLevel').value==='lad'?'Type your local authority, e.g. Cambridge…':'Type a ward, neighbourhood name or LSOA code…';renderReformBandQuery().catch(showError);};
- $('reformAreaSearch').oninput=reformQuerySearch;$('reformQueryLad').onchange=()=>{reformQueryArea=null;$('reformAreaSearch').value='';$('reformAreaResults').hidden=true;renderReformBandQuery().catch(showError);};
- $('reformAreaSearch').onkeydown=e=>{if(e.key==='Enter')$('reformAreaResults').querySelector('button')?.click();if(e.key==='Escape')$('reformAreaResults').hidden=true;};
- $('reformQueryEngland').onclick=()=>{reformQueryArea=null;$('reformAreaSearch').value='';$('reformAreaResults').hidden=true;renderReformBandQuery().catch(showError);};
- document.addEventListener('click',e=>{if(!e.target.closest('#reformBandQuery .search-wrap'))$('reformAreaResults').hidden=true;});renderReformBandQuery().catch(showError);
+ document.addEventListener('atlas-area-change',syncReformArea);
+ $('showReformOnMap').onclick=async()=>{
+  try{
+   await switchMapView('policy');
+   year=+$('reformQueryYear').value;policy=+$('reformQueryPolicy').value;
+   populateControls();await updateData();
+   if(reformQueryArea)choose(reformQueryArea.type,reformQueryArea.type==='lsoa'?reformQueryArea.index:reformQueryArea.code);
+   else choose(null);
+   $('explore').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
+  }catch(error){showError(error);}
+ };
+ syncReformArea();
+ if(new URLSearchParams(location.search).get('view')==='policy')switchMapView('policy').catch(showError);
 }
 if(document.documentElement.dataset.atlasReady==='true')initReformBandQuery();else document.addEventListener('atlas-ready',initReformBandQuery,{once:true});

@@ -1,0 +1,12 @@
+{
+  "edition": "20261121-new",
+  "created_utc": "2026-11-20T20:52:08.592876+00:00",
+  "base_edition": "20261120-spatial",
+  "paper": "downloads/SW_Council_Tax_Inequities_20261121.pdf",
+  "paper_version": "21 November 2026",
+  "paper_sha256": "547765d8c501f30336e54fdcecaae09f87687b0d8d6c92e1faef778577f61d8a",
+  "tracker_shared_year_rule": "Equal-weight mean per entered residence stage; one annual result per person/year",
+  "collection_enabled": false,
+  "published": false,
+  "scientific_data_recomputed": false
+}

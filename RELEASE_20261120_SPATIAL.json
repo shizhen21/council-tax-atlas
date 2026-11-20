@@ -1,0 +1,32 @@
+{
+  "edition": "20261120-spatial",
+  "created_utc": "2026-11-20T07:56:38.293212+00:00",
+  "coverage": {
+    "country": "England",
+    "years": [
+      1995,
+      2025
+    ],
+    "lad_reference_areas": 296,
+    "bands": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F",
+      "G",
+      "H"
+    ]
+  },
+  "public_story": [
+    "Band assignments",
+    "Charging proportions",
+    "Effective tax rates",
+    "Lower-value homes face higher tax rates"
+  ],
+  "spatial_methodology": "downloads/spatial_methodology.md",
+  "existing_models_policies_tracker_data_changed": false,
+  "residence_collection_enabled": false,
+  "published": false
+}

@@ -1,10 +1,11 @@
-# Manual update of the existing GitHub Pages site
+# Manual publication — Website 1120
 
-This candidate is for https://shizhen21.github.io/council-tax-atlas/ and has not been published.
+1. Keep the previous edition as a backup.
+2. Extract `Website_1120.zip` into a new folder.
+3. Check locally with `python3 preview.py`, then open `http://127.0.0.1:8772/`.
+4. Publish the extracted files to the existing site root, with `index.html`, `public.html`, `public-track.html`, `public-reform.html` and `research.html` alongside `assets`, `data` and `downloads`.
+5. Use Public 2's demonstration and Public 3's area/band selector to check the hosted site. Reload the page to pick up the new versioned assets.
 
-1. Unzip the package and review its three pages. `OPEN_FIRST_Three_Page_Visual_Preview.html` shows actual screenshots without a server. For functioning maps and charts, use `Preview_Atlas.command` on a Mac with Python 3.
-2. Back up the existing local website checkout. Copy the **contents** of the supplied `council-tax-atlas/` directory into that checkout's root. Avoid adding another nested website folder; preserve the existing repository metadata.
-3. Review and publish manually through GitHub Desktop, keeping the existing Pages branch and directory settings. Some retained aggregate files exceed the browser-upload limit but remain below the normal 100 MB per-file limit.
-4. After deployment, check navigation among all three pages, the 1113 PDF, the circled-r citation, the historical map, and a reform original-band query. Hard-refresh cached files if needed.
+All external publication is manual. GitHub Pages serves the static website while your computer is off. The server preview URL is a preview, not a public release.
 
-Only the website directory's contents need publishing. Outer preview files, checks, Python helpers and server research folders do not need publishing. No account login, publishing command or external upload is executed by the preview helpers.
+The included `preview.py` can also receive consented academic residence paths when explicitly enabled with a private database outside the website directory. GitHub Pages alone does not run that Python service. The default `data/collection-config.json` correctly disables submission for static hosting.

@@ -1,0 +1,2 @@
+document.getElementById('showLondonUrban')?.addEventListener('click',()=>{const e=document.getElementById('r2Comparison');e.value='londonUrban';e.dispatchEvent(new Event('change'));document.getElementById('bandR2').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});});
+document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',()=>{const t=document.getElementById(a.hash.slice(1));if(t){for(let p=t;p;p=p.parentElement)if(p.tagName==='DETAILS')p.open=true;}}));

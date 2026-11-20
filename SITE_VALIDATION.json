@@ -1,18 +1,216 @@
 {
+  "edition": "20261117-3",
   "status": "PASS",
-  "edition": "2026-11-13",
-  "revision": "20261113-2",
   "main_pages": [
     "index.html",
-    "regressivity.html",
-    "reform.html"
+    "research.html",
+    "public.html"
   ],
-  "checks": 80,
-  "england_only_checks": 14,
-  "visual_preview_checks": 9,
-  "original_scientific_files_unchanged": 1841,
-  "paper_sha256": "c10847d8bb0c018ff2a915e2e119b450088b4f12f4f03eb6fa93685ff72f03c7",
-  "author_order": "random",
-  "aea_randomisation_key": "u7zgIlv5s-ok",
-  "publishing_performed": false
+  "public_reform": "public.html#reformExplore",
+  "browser_check": {
+    "pages": {
+      "index.html": {
+        "h1": 1,
+        "duplicateIds": [],
+        "width": 1440,
+        "scrollWidth": 1425,
+        "fatal": "",
+        "footer": "CONTACT AND COPYRIGHT\n\nA research companion\nto the working paper.\nRead the paper · PDF\n↗\nContact\n\nSofie R. Waltl\nAssociate Professor, Department of Land Economy\nUniversity of Cambridge\nsw2123@cam.ac.uk\n\nShizhen Wang\nDepartmental Fellow, Department of Land Economy\nUniversity of Cambridge\nshizhen.wang.21@alumni.ucl.ac.uk\n\nCite the accompanying paper\n\nWaltl, Sofie R. ⓡ Shizhen Wang (2026). Stuck in 1991: How England’s Frozen Tax Base Drifts from Property Values and Creates Inequities. Working paper, 13 November 2026.\n\nBoth authors contributed equally to this work. The name order is random (AEA Randomisation Key: u7zgIlv5s-ok).\n\n© 2026 Sofie R. Waltl ⓡ Shizhen Wang. Source data retain their respective licences. Boundary data contain public sector information licensed under the Open Government Licence v3.0.\n\nBack to top ↑",
+        "browser_errors": []
+      },
+      "research.html": {
+        "h1": 1,
+        "duplicateIds": [],
+        "width": 1440,
+        "scrollWidth": 1425,
+        "fatal": "",
+        "footer": "CONTACT AND COPYRIGHT\n\nA research companion\nto the working paper.\nRead the paper · PDF\n↗\nContact\n\nSofie R. Waltl\nAssociate Professor, Department of Land Economy\nUniversity of Cambridge\nsw2123@cam.ac.uk\n\nShizhen Wang\nDepartmental Fellow, Department of Land Economy\nUniversity of Cambridge\nshizhen.wang.21@alumni.ucl.ac.uk\n\nCite the accompanying paper\n\nWaltl, Sofie R. ⓡ Shizhen Wang (2026). Stuck in 1991: How England’s Frozen Tax Base Drifts from Property Values and Creates Inequities. Working paper, 13 November 2026.\n\nBoth authors contributed equally to this work. The name order is random (AEA Randomisation Key: u7zgIlv5s-ok).\n\n© 2026 Sofie R. Waltl ⓡ Shizhen Wang. Source data retain their respective licences. Boundary data contain public sector information licensed under the Open Government Licence v3.0.\n\nBack to top ↑",
+        "browser_errors": []
+      },
+      "public.html": {
+        "h1": 1,
+        "duplicateIds": [],
+        "width": 1440,
+        "scrollWidth": 1425,
+        "fatal": "",
+        "footer": "CONTACT AND COPYRIGHT\n\nA research companion\nto the working paper.\nRead the paper · PDF\n↗\nContact\n\nSofie R. Waltl\nAssociate Professor, Department of Land Economy\nUniversity of Cambridge\nsw2123@cam.ac.uk\n\nShizhen Wang\nDepartmental Fellow, Department of Land Economy\nUniversity of Cambridge\nshizhen.wang.21@alumni.ucl.ac.uk\n\nCite the accompanying paper\n\nWaltl, Sofie R. ⓡ Shizhen Wang (2026). Stuck in 1991: How England’s Frozen Tax Base Drifts from Property Values and Creates Inequities. Working paper, 13 November 2026.\n\nBoth authors contributed equally to this work. The name order is random (AEA Randomisation Key: u7zgIlv5s-ok).\n\n© 2026 Sofie R. Waltl ⓡ Shizhen Wang. Source data retain their respective licences. Boundary data contain public sector information licensed under the Open Government Licence v3.0.\n\nBack to top ↑",
+        "browser_errors": []
+      }
+    },
+    "research": {
+      "r2_modes": [
+        "national",
+        "urban",
+        "regional",
+        "housing",
+        "composition",
+        "londonUrban"
+      ],
+      "gap_groups": 9,
+      "gap_contrasts": 13,
+      "context_combinations": 81,
+      "historical_suits": true,
+      "national_reform_combinations": 48,
+      "browser_errors": []
+    },
+    "public": {
+      "Cambridge_2005_2025": true,
+      "neighbourhood": true,
+      "map_selection_to_lookup": true,
+      "map_years_and_metrics": true,
+      "browser_errors": []
+    },
+    "reform": {
+      "shared_area_selector": true,
+      "query_to_map": true,
+      "map_mode_and_year_memory": true,
+      "Cambridge_bandA_2025_option6": [
+        "1,538.59",
+        "1,140.14",
+        "−398.45",
+        "0.676",
+        "0.460",
+        "−0.216",
+        "88.9",
+        "11.1"
+      ],
+      "query_scenarios": 12,
+      "local_schedules": true,
+      "browser_errors": []
+    },
+    "mobile": {
+      "320 index.html": {
+        "width": 320,
+        "scrollWidth": 320
+      },
+      "320 research.html": {
+        "width": 320,
+        "scrollWidth": 320
+      },
+      "320 public.html": {
+        "width": 320,
+        "scrollWidth": 320
+      },
+      "390 index.html": {
+        "width": 390,
+        "scrollWidth": 390
+      },
+      "390 research.html": {
+        "width": 390,
+        "scrollWidth": 390
+      },
+      "390 public.html": {
+        "width": 390,
+        "scrollWidth": 390
+      },
+      "768 index.html": {
+        "width": 768,
+        "scrollWidth": 753
+      },
+      "768 research.html": {
+        "width": 768,
+        "scrollWidth": 753
+      },
+      "768 public.html": {
+        "width": 768,
+        "scrollWidth": 753
+      }
+    },
+    "errors": [],
+    "passed": true
+  },
+  "payload_check": {
+    "original_files_verified": 1885,
+    "changed_existing_payloads": [
+      "data/research.json",
+      "downloads/research/All_Model_Fits.csv.gz",
+      "downloads/research/Annual_Band_Only_R2_All_Groups.csv.gz",
+      "downloads/research/R2_Trends.csv.gz"
+    ],
+    "groups": 9,
+    "specifications": 18,
+    "new_gap_contrasts": 13,
+    "saved_export_rows_checked": 4724,
+    "static_local_links_checked": 94,
+    "dynamic_model_downloads_checked": 77,
+    "models_refitted": false,
+    "tax_policy_data_changed": false,
+    "errors": [],
+    "passed": true
+  },
+  "publishing_performed": false,
+  "wording_source_check": {
+    "headline": "A frozen tax base in a changing housing market",
+    "headline_source": "13 November website/scripts/layout_before_reform_reorganisation.txt, .hero .eyebrow",
+    "intro_source": "13 November working-paper abstract, first sentence",
+    "public_heading_source": "13 November retained original layout, .hero h1",
+    "regional_text_source": "15 November README_RESULTS.md, Scope and principal findings",
+    "new_promotional_headlines_removed": true,
+    "layouts": [
+      {
+        "page": "index.html",
+        "viewport": 320,
+        "width": 320,
+        "scrollWidth": 320,
+        "fatal": ""
+      },
+      {
+        "page": "research.html",
+        "viewport": 320,
+        "width": 320,
+        "scrollWidth": 320,
+        "fatal": ""
+      },
+      {
+        "page": "public.html",
+        "viewport": 320,
+        "width": 320,
+        "scrollWidth": 320,
+        "fatal": ""
+      },
+      {
+        "page": "index.html",
+        "viewport": 390,
+        "width": 390,
+        "scrollWidth": 390,
+        "fatal": ""
+      },
+      {
+        "page": "research.html",
+        "viewport": 390,
+        "width": 390,
+        "scrollWidth": 390,
+        "fatal": ""
+      },
+      {
+        "page": "public.html",
+        "viewport": 390,
+        "width": 390,
+        "scrollWidth": 390,
+        "fatal": ""
+      },
+      {
+        "page": "index.html",
+        "viewport": 1440,
+        "width": 1440,
+        "scrollWidth": 1425,
+        "fatal": ""
+      },
+      {
+        "page": "research.html",
+        "viewport": 1440,
+        "width": 1440,
+        "scrollWidth": 1425,
+        "fatal": ""
+      },
+      {
+        "page": "public.html",
+        "viewport": 1440,
+        "width": 1440,
+        "scrollWidth": 1425,
+        "fatal": ""
+      }
+    ],
+    "passed": true
+  }
 }
